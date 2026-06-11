@@ -1,0 +1,74 @@
+---
+---
+/* Syntax highlighting — scoped to .prose to match main.css specificity */
+
+.prose .highlighter-rouge pre { background: #0d1117; }
+.prose .highlight .hll { background-color: #1e2030; }
+
+.prose .highlight .c,
+.prose .highlight .c1,
+.prose .highlight .cm,
+.prose .highlight .cs,
+.prose .highlight .cp  { color: #7c8394; font-style: italic; }
+
+.prose .highlight .k,
+.prose .highlight .kd,
+.prose .highlight .kn,
+.prose .highlight .kp,
+.prose .highlight .kr,
+.prose .highlight .kc,
+.prose .highlight .kt  { color: #cba6f7; font-weight: 500; }
+
+.prose .highlight .s,
+.prose .highlight .s1,
+.prose .highlight .s2,
+.prose .highlight .sb,
+.prose .highlight .sd,
+.prose .highlight .sh,
+.prose .highlight .sr,
+.prose .highlight .ss,
+.prose .highlight .sx,
+.prose .highlight .sc  { color: #a6e3a1; }
+
+.prose .highlight .nb,
+.prose .highlight .bp  { color: #89dceb; }
+
+.prose .highlight .nc,
+.prose .highlight .no  { color: #f9e2af; }
+
+.prose .highlight .nf,
+.prose .highlight .nx,
+.prose .highlight .na,
+.prose .highlight .nd  { color: #89dceb; }
+
+.prose .highlight .nv,
+.prose .highlight .vc,
+.prose .highlight .vg,
+.prose .highlight .vi  { color: #cba6f7; }
+
+.prose .highlight .nt  { color: #89b4fa; }
+
+.prose .highlight .nn,
+.prose .highlight .ni  { color: #f9e2af; }
+
+.prose .highlight .ne  { color: #f38ba8; }
+
+.prose .highlight .o,
+.prose .highlight .ow  { color: #89dceb; }
+
+.prose .highlight .mi,
+.prose .highlight .mf,
+.prose .highlight .mo,
+.prose .highlight .mh  { color: #fab387; }
+
+.prose .highlight .p,
+.prose .highlight .pi  { color: #cdd6f4; }
+
+.prose .highlight .gi  { color: #a6e3a1; }
+.prose .highlight .gd  { color: #f38ba8; }
+.prose .highlight .gh,
+.prose .highlight .gu  { color: #14d9a4; font-weight: 700; }
+
+.prose .highlight .go  { color: #7c8394; }
+.prose .highlight .ge  { font-style: italic; }
+.prose .highlight .gs  { font-weight: 700; }
