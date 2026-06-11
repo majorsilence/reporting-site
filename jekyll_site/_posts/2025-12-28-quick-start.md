@@ -2,7 +2,7 @@
 layout: post
 title: Quick Start Guide
 date: 2025-12-28
-last_modified: 2026-06-01
+last_modified: 2026-06-011
 comments: true
 enable_syntax_highlighting: true
 ---
@@ -15,16 +15,14 @@ Add the packages you need via NuGet:
 
 ```bash
 # Core rendering engine (required)
-dotnet add package Majorsilence.Reporting.RdlEngine
+dotnet add package Majorsilence.Reporting.RdlEngine.SkiaSharp
 
 # Barcode / QR Code support via ZXing.Net (optional)
-dotnet add package Majorsilence.Reporting.RdlCri
+dotnet add package Majorsilence.Reporting.RdlCri.SkiaSharp
 
 # Programmatic report & document creation (optional)
-dotnet add package Majorsilence.Reporting.RdlCreator
+dotnet add package Majorsilence.Reporting.RdlCreator.SkiaSharp
 ```
-
-On Linux and macOS, use the **SkiaSharp** build configuration (`Debug-DrawingCompat` / `Release-DrawingCompat`) for cross-platform rendering. Windows can use the default configuration.
 
 ---
 
