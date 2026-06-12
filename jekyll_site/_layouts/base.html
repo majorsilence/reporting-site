@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="system">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{{ page.title }} | Majorsilence Reporting</title>
+  <script>
+    (function(){
+      try {
+        var t = localStorage.getItem('msr-theme') || 'system';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch(e) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="{{site.baseurl}}/assets/css/bundle.css?v={{site.siteversion}}" />
@@ -20,8 +28,8 @@
   {% include footer.html %}
   <script defer src="{{site.baseurl}}/assets/js/bundle.js?v={{site.siteversion}}"></script>
   <script>
-    // Tab switcher for code examples
     document.addEventListener('DOMContentLoaded', function () {
+      // Tab switcher
       document.querySelectorAll('.tabs').forEach(function (tabGroup) {
         tabGroup.querySelectorAll('.tab-btn').forEach(function (btn) {
           btn.addEventListener('click', function () {
@@ -34,6 +42,20 @@
             });
           });
         });
+      });
+
+      // Theme switcher
+      function setTheme(t) {
+        try { localStorage.setItem('msr-theme', t); } catch(e) {}
+        document.documentElement.setAttribute('data-theme', t);
+        document.querySelectorAll('.theme-btn').forEach(function(btn) {
+          btn.classList.toggle('active', btn.dataset.theme === t);
+        });
+      }
+      var current = document.documentElement.getAttribute('data-theme') || 'system';
+      document.querySelectorAll('.theme-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.theme === current);
+        btn.addEventListener('click', function() { setTheme(btn.dataset.theme); });
       });
     });
   </script>

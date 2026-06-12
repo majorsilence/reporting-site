@@ -1,16 +1,25 @@
 ---
 layout: base
-title: Posts
+title: Blog
 navgroup: posts
 ---
-<div class="wrap" style="padding-top:2.5rem;padding-bottom:4rem">
-  <div style="margin-bottom:2rem">
-    <div style="font-family:var(--mono);font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem">Blog</div>
-    <h1 style="font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;letter-spacing:-0.03em;color:var(--text);margin-bottom:0.4rem">Posts &amp; Guides</h1>
-    <p style="color:var(--text-2);font-size:1rem">Release notes, tutorials, and how-to guides for Majorsilence Reporting.</p>
-  </div>
+<div class="blog-index">
+  <h1 class="blog-index-title">Blog</h1>
+  <p class="blog-index-sub">Guides, release notes, and notes from building an open-source reporting engine for .NET.</p>
 
-  <nav style="display:flex;gap:0.75rem;margin-bottom:2rem">
+  {% for post in paginator.posts %}
+  <a href="{{ site.baseurl }}{{ post.url }}" class="post-entry">
+    <div class="post-meta">{{ post.date | date: "%B %-d, %Y" }}{% if post.read_time %} · {{ post.read_time }} min read{% endif %}</div>
+    <div class="post-entry-title">{{ post.title }}</div>
+    {% if post.excerpt %}
+    <p class="post-entry-excerpt">{{ post.excerpt | strip_html | truncatewords: 35 }}</p>
+    {% endif %}
+    <span class="post-entry-link">Read post →</span>
+  </a>
+  {% endfor %}
+
+  {% if paginator.total_pages > 1 %}
+  <nav class="blog-pagination">
     {% if paginator.previous_page %}
       <a href="{{ site.baseurl }}{{ paginator.previous_page_path | replace: 'index.html', '' }}" class="btn btn-outline">&laquo; Newer</a>
     {% endif %}
@@ -18,26 +27,5 @@ navgroup: posts
       <a href="{{ site.baseurl }}{{ paginator.next_page_path }}/" class="btn btn-outline">Older &raquo;</a>
     {% endif %}
   </nav>
-
-  <div class="posts-list">
-    {% for post in paginator.posts %}
-    <article class="post-card">
-      <div class="post-meta">{{ post.date | date: "%B %-d, %Y" }}</div>
-      <h2><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h2>
-      {% if post.excerpt %}
-      <p>{{ post.excerpt | strip_html | truncatewords: 40 }}</p>
-      {% endif %}
-      <a href="{{ site.baseurl }}{{ post.url }}" class="btn btn-accent" style="margin-top:0.75rem;font-size:0.83rem">Read more →</a>
-    </article>
-    {% endfor %}
-  </div>
-
-  <nav style="display:flex;gap:0.75rem;margin-top:2rem">
-    {% if paginator.previous_page %}
-      <a href="{{ site.baseurl }}{{ paginator.previous_page_path | replace: 'index.html', '' }}" class="btn btn-outline">&laquo; Newer</a>
-    {% endif %}
-    {% if paginator.next_page %}
-      <a href="{{ site.baseurl }}{{ paginator.next_page_path }}/" class="btn btn-outline">Older &raquo;</a>
-    {% endif %}
-  </nav>
+  {% endif %}
 </div>
