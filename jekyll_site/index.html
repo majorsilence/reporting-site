@@ -134,6 +134,103 @@ title: Majorsilence Reporting
   </div>
 </section>
 
+<!-- ── Why Switch ─────────────────────────────────────────────────── -->
+<section class="why-section">
+  <div class="wrap">
+    <div class="section-label">Comparison</div>
+    <h2 class="section-title">The modern alternative to legacy reporting</h2>
+    <p class="section-sub">Crystal Reports requires .NET Framework and a commercial license. SSRS requires SQL Server and a dedicated Windows server. Majorsilence Reporting is a NuGet package that runs anywhere .NET runs.</p>
+
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="col-us">Majorsilence<br><span class="col-tag">This library</span></th>
+            <th>Crystal Reports</th>
+            <th>SSRS</th>
+            <th>FastReport /<br>DevExpress</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">License</td>
+            <td class="col-us"><span class="check">✓</span> Apache 2.0 — free</td>
+            <td>Commercial, per-seat</td>
+            <td>Requires SQL Server license</td>
+            <td>Commercial, per-seat</td>
+          </tr>
+          <tr>
+            <td class="row-label">.NET 8 / 10</td>
+            <td class="col-us"><span class="check">✓</span> Full support</td>
+            <td><span class="cross">✗</span> .NET Framework only</td>
+            <td>Render only (partial)</td>
+            <td><span class="check">✓</span> Supported</td>
+          </tr>
+          <tr>
+            <td class="row-label">Linux / Docker</td>
+            <td class="col-us"><span class="check">✓</span> Cross-platform</td>
+            <td><span class="cross">✗</span> Windows only</td>
+            <td><span class="cross">✗</span> Windows Server only</td>
+            <td>Varies by product</td>
+          </tr>
+          <tr>
+            <td class="row-label">Deployment</td>
+            <td class="col-us"><span class="check">✓</span> NuGet package</td>
+            <td>Runtime redistributable</td>
+            <td>Dedicated report server</td>
+            <td>NuGet package</td>
+          </tr>
+          <tr>
+            <td class="row-label">Report format</td>
+            <td class="col-us"><span class="check">✓</span> Open RDL (XML)</td>
+            <td>Binary .rpt (proprietary)</td>
+            <td><span class="check">✓</span> Open RDL (XML)</td>
+            <td>Proprietary</td>
+          </tr>
+          <tr>
+            <td class="row-label">Output formats</td>
+            <td class="col-us">PDF, XLSX, HTML, CSV, RTF, XML, TIFF, MHT</td>
+            <td>PDF, Excel, Word, HTML</td>
+            <td>PDF, Excel, Word, HTML, CSV</td>
+            <td>PDF, Excel, Word, HTML</td>
+          </tr>
+          <tr>
+            <td class="row-label">Inject C# objects</td>
+            <td class="col-us"><span class="check">✓</span> <code>SetData()</code></td>
+            <td>Limited</td>
+            <td>Limited</td>
+            <td>Varies</td>
+          </tr>
+          <tr>
+            <td class="row-label">Built-in report portal</td>
+            <td class="col-us">Build your own</td>
+            <td>Crystal Reports Server (extra cost)</td>
+            <td><span class="check">✓</span> Included</td>
+            <td>Some products include one</td>
+          </tr>
+          <tr>
+            <td class="row-label">Open source</td>
+            <td class="col-us"><span class="check">✓</span> GitHub</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="migration-callout">
+      <div class="migration-icon">🔄</div>
+      <div class="migration-body">
+        <h4>Migrating from Crystal Reports or SSRS?</h4>
+        <p>SSRS reports use the same open RDL format — many will render with Majorsilence Reporting without modification. Crystal Reports <code>.rpt</code> files need conversion, but straightforward tabular reports migrate cleanly.</p>
+        <a href="/posts/replacing-crystal-reports-ssrs" class="btn btn-outline" style="margin-top:0.75rem;display:inline-block">Read the migration guide →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── Install ────────────────────────────────────────────────────── -->
 <section class="install-section">
   <div class="wrap">

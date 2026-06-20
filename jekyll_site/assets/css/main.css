@@ -817,6 +817,124 @@ ul { list-style: none; }
 .footer-links a { color: var(--ink-faint); transition: color var(--transition); }
 .footer-links a:hover { color: var(--ink); text-decoration: none; }
 
+/* ─── Why Switch / Comparison section ───────────────────────────── */
+.why-section {
+  padding: 5rem 1.5rem;
+}
+
+.compare-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 2.5rem 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  min-width: 680px;
+}
+
+.compare-table th,
+.compare-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.compare-table thead th {
+  background: var(--surface);
+  font-family: var(--display);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  white-space: nowrap;
+}
+
+.compare-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.compare-table tbody tr:hover td {
+  background: var(--accent-soft);
+}
+
+.compare-table .row-label {
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.compare-table .col-us {
+  background: var(--accent-soft);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.compare-table thead th.col-us {
+  color: var(--accent);
+}
+
+.col-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-top: 3px;
+}
+
+.compare-table .check { color: var(--accent); font-weight: 700; }
+.compare-table .cross { color: #ef4444; font-weight: 700; }
+
+.migration-callout {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.5rem 1.75rem;
+  margin-top: 1rem;
+}
+
+.migration-icon {
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 0.1rem;
+}
+
+.migration-body h4 {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--ink);
+}
+
+.migration-body p {
+  color: var(--ink-soft);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .migration-callout { flex-direction: column; gap: 0.75rem; }
+}
+
 /* ─── Misc helpers ───────────────────────────────────────────────── */
 .mt-1 { margin-top: 0.5rem; }
 .mt-2 { margin-top: 1rem; }
