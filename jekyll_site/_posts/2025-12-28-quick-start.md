@@ -233,4 +233,5 @@ await report.RunRender(ofs, Majorsilence.Reporting.Rdl.OutputPresentationType.PD
 - [Migration to v5](https://github.com/majorsilence/Reporting/wiki/Migration-to-v5)
 - [JSON Data Provider](https://github.com/majorsilence/Reporting/wiki/Json-Data-Provider)
 - [Dynamic connection strings](https://github.com/majorsilence/Reporting/wiki/Set-Connection-String---Runtime)
+- [Native AOT and Trimming Support](/posts/aot-compatibility) — how to publish with `PublishAot` or `PublishTrimmed`
 - [Contributing](https://github.com/majorsilence/Reporting/wiki/Contribute)

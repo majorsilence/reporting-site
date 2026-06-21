@@ -489,6 +489,173 @@ The RDL uses parameter expressions for both the format and the value:
 
 ---
 
+## 9. AOT — Replace `<Code>` VB with C# Delegates
+
+**Example project:** `AotCodeProvider`
+
+When publishing with `<PublishAot>true</PublishAot>`, the VB compiler (`VBCodeProvider`) is unavailable. `RegisterCodeProvider` lets you supply a C# delegate dictionary that the engine calls in its place. The RDL `<Code>` element can still contain VB source — it is used on standard JIT runtimes and ignored when a provider is registered.
+
+```csharp
+using Majorsilence.Reporting.Rdl;
+
+// Register BEFORE RdlEngineConfigInit and before Parse()
+RdlEngineConfig.RegisterCodeProvider(report =>
+    new RdlCodeFunctions()
+        .Add("Grade", args =>
+        {
+            double score = Convert.ToDouble(args[0]);
+            return score >= 90 ? "A" :
+                   score >= 80 ? "B" :
+                   score >= 70 ? "C" :
+                   score >= 60 ? "D" : "F";
+        })
+        .Add("Commentary", args =>
+        {
+            double score = Convert.ToDouble(args[0]);
+            return score >= 90 ? "Excellent" :
+                   score >= 70 ? "Good" :
+                   score >= 50 ? "Needs Improvement" : "Failing";
+        })
+        .Add("IsPassing", args => Convert.ToDouble(args[0]) >= 60)
+);
+
+RdlEngineConfig.RdlEngineConfigInit();
+// ... Parse, SetData, RunGetData, RunRender as normal
+```
+
+The RDL expressions are unchanged — `=Code.Grade(Fields!Score.Value)`, `=Code.IsPassing(...)`, etc. Method names are matched case-insensitively against the registered delegate names.
+
+The `<Code>` element in the RDL can document the VB equivalents (for non-AOT use) while the registration takes effect on AOT runtimes:
+
+```xml
+<Code>
+Function Grade(score As Object) As String
+    ' used on non-AOT runtimes; ignored when RegisterCodeProvider is called
+    If CDbl(score) >= 90 Then Return "A"
+    ' ...
+End Function
+</Code>
+```
+
+---
+
+## 10. AOT — Static Helper Methods via `RegisterType`
+
+**Example project:** `AotStaticHelpers`
+
+When expressions call static methods on a class in your assembly — `=MyNamespace.MyClass.Method(args)` — the trimmer may remove those methods from the published binary. `RegisterType` tells the trimmer the class's public methods and constructors must be preserved.
+
+```csharp
+using Majorsilence.Reporting.Rdl;
+
+// Register BEFORE RdlEngineConfigInit and before Parse()
+// The fully-qualified name must match how the class appears in the RDL expressions
+RdlEngineConfig.RegisterType(
+    "AotStaticHelpers.SalesHelpers",
+    typeof(SalesHelpers));
+
+RdlEngineConfig.RdlEngineConfigInit();
+// ... Parse, SetData, RunGetData, RunRender as normal
+
+public static class SalesHelpers
+{
+    public static string FormatMoney(object value) =>
+        $"{Convert.ToDecimal(value):C}";
+
+    public static string Tier(object amount)
+    {
+        decimal v = Convert.ToDecimal(amount);
+        return v >= 2000 ? "Platinum" :
+               v >= 1000 ? "Gold" :
+               v >= 500  ? "Silver" : "Bronze";
+    }
+
+    public static string TierColor(object amount)
+    {
+        decimal v = Convert.ToDecimal(amount);
+        return v >= 2000 ? "#4B0082" :
+               v >= 1000 ? "#B8860B" :
+               v >= 500  ? "#708090" : "#8B4513";
+    }
+}
+```
+
+The RDL uses the fully-qualified class name directly in expressions. No `<CodeModules>` element is required:
+
+```xml
+<Value>=AotStaticHelpers.SalesHelpers.FormatMoney(Fields!Amount.Value)</Value>
+<Value>=AotStaticHelpers.SalesHelpers.Tier(Fields!Amount.Value)</Value>
+<Color>=AotStaticHelpers.SalesHelpers.TierColor(Fields!Amount.Value)</Color>
+```
+
+> Method dispatch still uses `MethodInfo.Invoke` internally. `RegisterType` ensures those methods survive trimming; it does not eliminate the reflection call. For fully reflection-free custom logic use `RegisterCodeProvider` + `RdlCodeFunctions` (example 9).
+
+---
+
+## 11. AOT — Instance Helper Class via `RegisterInstanceFactory`
+
+**Example project:** `AotInstanceHelpers`
+
+When a report has a `<Classes>` element declaring an instance variable, the engine normally creates the instance via `Assembly.CreateInstance`. Under AOT this fails. Two registrations replace it:
+
+```csharp
+using Majorsilence.Reporting.Rdl;
+
+// Step 1: factory replaces Assembly.CreateInstance
+RdlEngineConfig.RegisterInstanceFactory(
+    "AotInstanceHelpers.OrderFormatter",
+    () => new OrderFormatter());
+
+// Step 2: type registration preserves the public methods for reflection-based dispatch
+RdlEngineConfig.RegisterType(
+    "AotInstanceHelpers.OrderFormatter",
+    typeof(OrderFormatter));
+
+RdlEngineConfig.RdlEngineConfigInit();
+// ... Parse, SetData, RunGetData, RunRender as normal
+
+public class OrderFormatter
+{
+    public string FormatDate(object value) =>
+        Convert.ToDateTime(value).ToString("MMM d, yyyy");
+
+    public string FormatMoney(object value) =>
+        $"{Convert.ToDecimal(value):C}";
+
+    public string StatusColor(object status) =>
+        (status?.ToString() ?? "") switch
+        {
+            "Delivered"  => "#C6EFCE",
+            "Shipped"    => "#FFEB9C",
+            "Processing" => "#FFCCCC",
+            _            => "White",
+        };
+}
+```
+
+The `<Classes>` element in the RDL declares the class and assigns it an instance name:
+
+```xml
+<Classes>
+  <Class>
+    <ClassName>AotInstanceHelpers.OrderFormatter</ClassName>
+    <InstanceName>Helper</InstanceName>
+  </Class>
+</Classes>
+```
+
+Report expressions then call methods via the instance name (`Helper`), not the class name:
+
+```xml
+<Value>=Helper.FormatDate(Fields!OrderDate.Value)</Value>
+<Value>=Helper.FormatMoney(Fields!Amount.Value)</Value>
+<BackgroundColor>=Helper.StatusColor(Fields!Status.Value)</BackgroundColor>
+```
+
+No `<CodeModules>` element is required — the registration bypasses assembly scanning entirely.
+
+---
+
 ## Beyond RDL: The Low-Level PDF Canvas
 
 The `MajorsilencePdfExample` project shows a second, lower-level library: `Majorsilence.Pdf`. This is a canvas-level PDF writer — you position text, draw shapes, and embed images explicitly, with no RDL or report definition involved.
@@ -541,6 +708,7 @@ Use `Majorsilence.Pdf` when you need pixel-level control over layout, when you a
 | Pixel-precise layout, certificates, design docs | `Majorsilence.Pdf` canvas API |
 | Merge multiple PDFs into one | `Majorsilence.Pdf.PdfMerger` |
 | Password-protect or digitally sign a document | `Majorsilence.Pdf` with `PdfSecurity` / `PdfSignatureOptions` |
+| Publishing with `PublishAot` or `PublishTrimmed` | `RegisterCodeProvider` / `RegisterType` / `RegisterInstanceFactory` |
 
 ---
 
@@ -549,5 +717,6 @@ Use `Majorsilence.Pdf` when you need pixel-level control over layout, when you a
 - [Quick Start Guide](/posts/quick-start) — installation and the core render pipeline
 - [Adding Charts to Reports](/posts/charts) — 8 chart types and how to configure them
 - [Replacing Crystal Reports and SSRS](/posts/replacing-crystal-reports-ssrs) — migration guide
+- [Native AOT and Trimming Support](/posts/aot-compatibility) — full AOT guide with all four registration APIs
 - [GitHub Examples](https://github.com/majorsilence/Reporting/tree/main/Examples) — runnable source for all examples in this post
 - [GitHub Wiki](https://github.com/majorsilence/Reporting/wiki) — full documentation
