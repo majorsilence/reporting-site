@@ -241,7 +241,16 @@ record SaleRecord(string Product, string Region, decimal Amount, int Quantity);
 - The data comes from a source the RDL engine cannot query directly (a gRPC service, a message bus, an in-process computation).
 - You need to transform or enrich data before rendering (join multiple sources, apply business logic, aggregate differently than SQL allows).
 
-The RDL still needs a real database at parse time for schema validation. A common pattern for stub validation is a `LIMIT 0` query whose column aliases match your record's property names — the engine validates the schema without returning any rows.
+If you do not want the engine to hit a real database at parse time, set `SkipDatabaseSchemaValidation = true` on the `RDLParser` before calling `Parse()`:
+
+```csharp
+var rdlp = new RDLParser(rdlXml)
+{
+    Folder = baseDir,
+    SkipDatabaseSchemaValidation = true,
+};
+using var report = await rdlp.Parse();
+```
 
 ---
 
