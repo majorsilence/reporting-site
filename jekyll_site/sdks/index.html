@@ -1,0 +1,238 @@
+---
+layout: default
+title: "SDKs"
+description: "Client SDKs for Majorsilence Reporting — render RDL reports from Python, PHP, Ruby, and Rust."
+---
+
+<style>
+  .sdks-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+  }
+
+  .sdks-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .sdks-title {
+    font-family: 'Newsreader', serif;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 16px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  @media (max-width: 600px) { .sdks-title { font-size: 34px; } }
+
+  .sdks-lead {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 48px;
+    max-width: 600px;
+  }
+
+  .sdks-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 56px;
+  }
+
+  @media (max-width: 600px) { .sdks-grid { grid-template-columns: 1fr; } }
+
+  .sdk-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 28px 24px;
+    text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+  }
+
+  .sdk-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    transform: translateY(-2px);
+  }
+
+  .sdk-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .sdk-lang-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .sdk-card-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--ink-faint);
+  }
+
+  .sdk-card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+
+  .sdk-card-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+  }
+
+  .sdk-card-modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .sdk-mode-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 2px 7px;
+  }
+
+  .sdk-card-arrow {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+  }
+
+  .sdks-note {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 24px 28px;
+  }
+
+  .sdks-note-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+
+  .sdks-note-body {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  .sdks-note-body code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+</style>
+
+<div class="sdks-wrap">
+  <div class="sdks-eyebrow">Client SDKs</div>
+  <h1 class="sdks-title">Use Majorsilence Reporting from any language</h1>
+  <p class="sdks-lead">Each SDK wraps the same RDL engine — subprocess, AOT binary, or native FFI — so you can render reports from your existing stack without a .NET dependency at the call site.</p>
+
+  <div class="sdks-grid">
+
+    <a href="{{ '/sdks/python/' | relative_url }}" class="sdk-card">
+      <div class="sdk-card-header">
+        <span class="sdk-lang-badge">Python</span>
+        <span class="sdk-card-name">majorsilence-reporting</span>
+      </div>
+      <div class="sdk-card-title">Python SDK</div>
+      <p class="sdk-card-desc">Python 3.10+. No runtime dependencies beyond the standard library. Subprocess, AOT binary, or in-process <code style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--accent);background:var(--accent-soft);padding:1px 5px;border-radius:4px">ctypes</code> FFI.</p>
+      <div class="sdk-card-modes">
+        <span class="sdk-mode-tag">subprocess</span>
+        <span class="sdk-mode-tag">AOT binary</span>
+        <span class="sdk-mode-tag">ctypes FFI</span>
+      </div>
+      <div class="sdk-card-arrow">docs →</div>
+    </a>
+
+    <a href="{{ '/sdks/php/' | relative_url }}" class="sdk-card">
+      <div class="sdk-card-header">
+        <span class="sdk-lang-badge">PHP</span>
+        <span class="sdk-card-name">majorsilence/reporting</span>
+      </div>
+      <div class="sdk-card-title">PHP SDK</div>
+      <p class="sdk-card-desc">PHP 8.1+. No Composer runtime dependencies. Subprocess, AOT binary, or in-process PHP FFI. Streams reports directly to the browser.</p>
+      <div class="sdk-card-modes">
+        <span class="sdk-mode-tag">proc_open</span>
+        <span class="sdk-mode-tag">AOT binary</span>
+        <span class="sdk-mode-tag">PHP FFI</span>
+      </div>
+      <div class="sdk-card-arrow">docs →</div>
+    </a>
+
+    <a href="{{ '/sdks/ruby/' | relative_url }}" class="sdk-card">
+      <div class="sdk-card-header">
+        <span class="sdk-lang-badge">Ruby</span>
+        <span class="sdk-card-name">majorsilence_reporting</span>
+      </div>
+      <div class="sdk-card-title">Ruby SDK</div>
+      <p class="sdk-card-desc">Ruby 3.0+. No gem runtime dependencies. Subprocess, AOT binary, or in-process Fiddle FFI. Works with Rails, Sinatra, and Rack.</p>
+      <div class="sdk-card-modes">
+        <span class="sdk-mode-tag">subprocess</span>
+        <span class="sdk-mode-tag">AOT binary</span>
+        <span class="sdk-mode-tag">Fiddle FFI</span>
+      </div>
+      <div class="sdk-card-arrow">docs →</div>
+    </a>
+
+    <a href="{{ '/sdks/rust/' | relative_url }}" class="sdk-card">
+      <div class="sdk-card-header">
+        <span class="sdk-lang-badge">Rust</span>
+        <span class="sdk-card-name">majorsilence-reporting</span>
+      </div>
+      <div class="sdk-card-title">Rust SDK</div>
+      <p class="sdk-card-desc">Rust 2021 edition. One dependency (<code style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--accent);background:var(--accent-soft);padding:1px 5px;border-radius:4px">libloading</code>). Native FFI only — no subprocess, no .NET runtime. Thread-safe, Arc-backed library handle.</p>
+      <div class="sdk-card-modes">
+        <span class="sdk-mode-tag">libloading FFI</span>
+        <span class="sdk-mode-tag">Arc + Send + Sync</span>
+      </div>
+      <div class="sdk-card-arrow">docs →</div>
+    </a>
+
+  </div>
+
+  <div class="sdks-note">
+    <div class="sdks-note-title">All formats, all modes</div>
+    <p class="sdks-note-body">Every SDK supports <code>pdf</code>, <code>xlsx</code>, <code>csv</code>, <code>xml</code>, <code>rtf</code>, <code>tif</code>, and <code>html</code> in all integration modes. The AOT binary and native FFI modes additionally unlock <code>xlsx_table</code>, <code>tifb</code>, and <code>mht</code>. In-memory datasets (no database required) are available in all native FFI modes via <code>add_data()</code>.</p>
+  </div>
+</div>

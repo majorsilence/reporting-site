@@ -1,0 +1,340 @@
+---
+layout: default
+title: "PHP SDK"
+description: "Use Majorsilence Reporting from PHP — subprocess, AOT binary, or PHP FFI native mode."
+---
+
+<style>
+  .docs-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .docs-back {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 28px;
+  }
+
+  .docs-back:hover { text-decoration: underline; }
+
+  .docs-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .docs-title {
+    font-family: 'Newsreader', serif;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 20px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  @media (max-width: 600px) { .docs-title { font-size: 34px; } }
+
+  .docs-lead {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 36px;
+  }
+
+  hr.docs-rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 40px 0;
+  }
+
+  .docs-h2 {
+    font-family: 'Newsreader', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  .docs-h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 28px 0 8px;
+  }
+
+  .docs-p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+
+  .docs-section { margin-bottom: 40px; }
+
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+
+  .api-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .api-table td {
+    padding: 9px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .api-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .api-table tr:last-child td { border-bottom: none; }
+  .api-table tbody tr:nth-child(even) td { background: var(--accent-soft); }
+
+  .docs-toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+
+  .docs-toc-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .docs-toc ol {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 500px) { .docs-toc ol { grid-template-columns: 1fr; } }
+
+  .docs-toc a { color: var(--accent); text-decoration: none; }
+  .docs-toc a:hover { text-decoration: underline; }
+
+  .docs-note {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+</style>
+
+<div class="docs-wrap">
+  <a href="{{ '/sdks/' | relative_url }}" class="docs-back">← SDKs</a>
+
+  <div class="docs-eyebrow">PHP SDK</div>
+  <h1 class="docs-title">majorsilence/reporting</h1>
+  <p class="docs-lead">Render RDL reports to PDF, Excel, CSV, and more from PHP — via subprocess, an AOT binary, or in-process PHP FFI. PHP 8.1+. No Composer runtime dependencies.</p>
+
+  <div class="docs-toc">
+    <div class="docs-toc-title">On this page</div>
+    <ol>
+      <li><a href="#install">Installation</a></li>
+      <li><a href="#modes">Integration modes</a></li>
+      <li><a href="#report">Report (subprocess)</a></li>
+      <li><a href="#aot">ReportAot (AOT binary)</a></li>
+      <li><a href="#native">ReportNative (FFI)</a></li>
+      <li><a href="#api">Core API</a></li>
+      <li><a href="#add-data">In-memory datasets</a></li>
+      <li><a href="#formats">Export formats</a></li>
+    </ol>
+  </div>
+
+  <hr class="docs-rule" id="install">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Installation</h2>
+    <p class="docs-p">Install via Composer (PHP 8.1+ required):</p>
+    <pre>composer require majorsilence/reporting</pre>
+    <p class="docs-p">Or clone the repository and require the autoloader manually:</p>
+    <pre><span class="tok-kw">require_once</span> <span class="tok-str">__DIR__</span> . <span class="tok-str">'/vendor/autoload.php'</span>;</pre>
+    <p class="docs-p">No runtime Composer dependencies. The native FFI mode additionally requires <code>ext-ffi</code> and <code>ffi.enable=true</code> in <code>php.ini</code>.</p>
+  </div>
+
+  <hr class="docs-rule" id="modes">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Integration modes</h2>
+    <table class="api-table">
+      <thead><tr><th>Class</th><th>Mechanism</th><th>Requirement</th></tr></thead>
+      <tbody>
+        <tr><td>Report</td><td>Spawns <code>dotnet RdlCmd.dll</code> via <code>proc_open</code>.</td><td>.NET runtime on the server.</td></tr>
+        <tr><td>ReportAot</td><td>Spawns a self-contained AOT-compiled <code>RdlCmd</code> binary via <code>proc_open</code>.</td><td>AOT binary deployed alongside the app. No .NET runtime needed.</td></tr>
+        <tr><td>ReportNative</td><td>Loads <code>librdlnative.so</code> in-process via PHP FFI. Use <code>RdlLibrary::load()</code> to obtain the FFI instance.</td><td><code>ext-ffi</code>, <code>ffi.enable=true</code>, and the native library on <code>LD_LIBRARY_PATH</code>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="docs-rule" id="report">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Report — subprocess (dotnet)</h2>
+    <pre><span class="tok-kw">use</span> MajorsilenceReporting\Report;
+
+<span class="tok-kw">$rpt</span> = <span class="tok-kw">new</span> Report(
+    <span class="tok-str">'/path/to/report.rdl'</span>,
+    <span class="tok-str">'/path/to/RdlCmd.dll'</span>
+);
+<span class="tok-kw">$rpt</span>->set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>);
+<span class="tok-kw">$rpt</span>->set_parameter(<span class="tok-str">'StartDate'</span>, <span class="tok-str">'2026-01-01'</span>);
+
+<span class="tok-cm">// Save to disk</span>
+<span class="tok-kw">$rpt</span>->export(<span class="tok-str">'pdf'</span>, <span class="tok-str">'/tmp/output.pdf'</span>);
+
+<span class="tok-cm">// Or stream to the browser</span>
+<span class="tok-kw">$data</span> = <span class="tok-kw">$rpt</span>->export_to_memory(<span class="tok-str">'pdf'</span>);
+header(<span class="tok-str">'Content-Type: application/pdf'</span>);
+header(<span class="tok-str">'Content-Disposition: inline; filename="report.pdf"'</span>);
+<span class="tok-kw">echo</span> <span class="tok-kw">$data</span>;</pre>
+  </div>
+
+  <hr class="docs-rule" id="aot">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">ReportAot — AOT binary</h2>
+    <p class="docs-p">Same API as <code>Report</code> but points at a self-contained binary. No .NET runtime required. Also unlocks additional export formats (<code>xlsx_table</code>, <code>tifb</code>, <code>mht</code>).</p>
+    <pre><span class="tok-kw">use</span> MajorsilenceReporting\ReportAot;
+
+<span class="tok-kw">$rpt</span> = <span class="tok-kw">new</span> ReportAot(
+    <span class="tok-str">'/path/to/report.rdl'</span>,
+    <span class="tok-str">'/path/to/RdlCmd'</span>   <span class="tok-cm">// self-contained binary</span>
+);
+<span class="tok-kw">$rpt</span>->set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>);
+
+<span class="tok-kw">$data</span> = <span class="tok-kw">$rpt</span>->export_to_memory(<span class="tok-str">'xlsx_table'</span>);
+header(<span class="tok-str">'Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'</span>);
+<span class="tok-kw">echo</span> <span class="tok-kw">$data</span>;</pre>
+  </div>
+
+  <hr class="docs-rule" id="native">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">ReportNative — PHP FFI</h2>
+    <p class="docs-p">Load <code>librdlnative.so</code> directly into the PHP process via FFI. No child process is spawned. Requires <code>ext-ffi</code> and <code>ffi.enable=true</code>.</p>
+    <pre><span class="tok-kw">use</span> MajorsilenceReporting\ReportNative;
+<span class="tok-kw">use</span> MajorsilenceReporting\RdlLibrary;
+
+<span class="tok-cm">// Load the native library once. Sets RDLNATIVE_LIB_DIR automatically.</span>
+<span class="tok-kw">$lib</span> = RdlLibrary::load(<span class="tok-str">'/path/to/librdlnative.so'</span>);
+
+<span class="tok-kw">$rpt</span> = <span class="tok-kw">new</span> ReportNative(<span class="tok-kw">$lib</span>, <span class="tok-str">'/path/to/report.rdl'</span>);
+<span class="tok-kw">$rpt</span>->set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>);
+
+<span class="tok-kw">$data</span> = <span class="tok-kw">$rpt</span>->export_to_memory(<span class="tok-str">'pdf'</span>);
+header(<span class="tok-str">'Content-Type: application/pdf'</span>);
+<span class="tok-kw">echo</span> <span class="tok-kw">$data</span>;</pre>
+
+    <div class="docs-note">
+      PHP FFI requires <code>extension=ffi</code> and <code>ffi.enable=true</code> in <code>php.ini</code>. The native library directory must be on <code>LD_LIBRARY_PATH</code> before PHP starts — <code>RdlLibrary::load()</code> sets <code>RDLNATIVE_LIB_DIR</code> but cannot retroactively update <code>LD_LIBRARY_PATH</code> for the current process.
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="api">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Core API</h2>
+    <p class="docs-p">All three classes share the same interface (PSR-4 namespace <code>MajorsilenceReporting\</code>):</p>
+    <table class="api-table">
+      <thead><tr><th>Method</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>set_connection_string(string $cs)</td><td>Set the database connection string. Call before <code>export</code>.</td></tr>
+        <tr><td>set_parameter(string $name, string $value)</td><td>Set a named report parameter. Call as many times as needed.</td></tr>
+        <tr><td>export(string $type, string $path)</td><td>Render the report and write the output to <code>$path</code> on disk.</td></tr>
+        <tr><td>export_to_memory(string $type): string</td><td>Render and return the output as a binary string (for PDF, TIFF, RTF, XLSX) or UTF-8 string (for CSV, XML, HTML).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="docs-rule" id="add-data">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">In-memory datasets</h2>
+    <p class="docs-p"><code>ReportNative</code> supports supplying data entirely in memory via <code>add_data()</code> — no database connection needed. Pass a dataset name and an array of associative arrays where every value is a string.</p>
+    <pre><span class="tok-kw">$rpt</span>->add_data(<span class="tok-str">'SalesData'</span>, [
+    [<span class="tok-str">'Product'</span> => <span class="tok-str">'PDF Library Pro'</span>,  <span class="tok-str">'Revenue'</span> => <span class="tok-str">'1200.00'</span>, <span class="tok-str">'Units'</span> => <span class="tok-str">'3'</span>],
+    [<span class="tok-str">'Product'</span> => <span class="tok-str">'Report Designer'</span>,   <span class="tok-str">'Revenue'</span> => <span class="tok-str">'250.00'</span>,  <span class="tok-str">'Units'</span> => <span class="tok-str">'1'</span>],
+    [<span class="tok-str">'Product'</span> => <span class="tok-str">'Support (12 mo.)'</span>,  <span class="tok-str">'Revenue'</span> => <span class="tok-str">'500.00'</span>,  <span class="tok-str">'Units'</span> => <span class="tok-str">'1'</span>],
+]);
+
+<span class="tok-kw">$data</span> = <span class="tok-kw">$rpt</span>->export_to_memory(<span class="tok-str">'pdf'</span>);</pre>
+    <div class="docs-note">
+      <code>add_data()</code> is only available on <code>ReportNative</code>, not on <code>Report</code> or <code>ReportAot</code>. The dataset name must match a dataset defined in the <code>.rdl</code> file. All field values must be strings.
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="formats">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Export formats</h2>
+    <table class="api-table">
+      <thead><tr><th>Format string</th><th>Output</th><th>Available in</th></tr></thead>
+      <tbody>
+        <tr><td><code>pdf</code></td><td>PDF</td><td>All modes</td></tr>
+        <tr><td><code>csv</code></td><td>CSV text</td><td>All modes</td></tr>
+        <tr><td><code>xlsx</code></td><td>Excel workbook</td><td>All modes</td></tr>
+        <tr><td><code>xml</code></td><td>XML data</td><td>All modes</td></tr>
+        <tr><td><code>rtf</code></td><td>Rich Text Format</td><td>All modes</td></tr>
+        <tr><td><code>tif</code></td><td>TIFF image (colour)</td><td>All modes</td></tr>
+        <tr><td><code>html</code></td><td>HTML</td><td>All modes</td></tr>
+        <tr><td><code>xlsx_table</code></td><td>Excel (table style)</td><td>ReportAot + ReportNative only</td></tr>
+        <tr><td><code>tifb</code></td><td>TIFF image (black &amp; white)</td><td>ReportAot + ReportNative only</td></tr>
+        <tr><td><code>mht</code></td><td>MHTML web archive</td><td>ReportAot + ReportNative only</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
