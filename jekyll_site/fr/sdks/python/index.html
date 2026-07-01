@@ -1,0 +1,351 @@
+---
+layout: default
+lang: fr
+title: "SDK Python"
+description: "Utilisez Majorsilence Reporting depuis Python — sous-processus, binaire AOT, ou FFI native ctypes."
+---
+
+<style>
+  .docs-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .docs-back {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 28px;
+  }
+
+  .docs-back:hover { text-decoration: underline; }
+
+  .docs-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .docs-title {
+    font-family: 'Newsreader', serif;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 20px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  @media (max-width: 600px) { .docs-title { font-size: 34px; } }
+
+  .docs-lead {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 36px;
+  }
+
+  hr.docs-rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 40px 0;
+  }
+
+  .docs-h2 {
+    font-family: 'Newsreader', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  .docs-h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 28px 0 8px;
+  }
+
+  .docs-p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+
+  .docs-section { margin-bottom: 40px; }
+
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+
+  .api-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .api-table td {
+    padding: 9px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .api-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .api-table tr:last-child td { border-bottom: none; }
+  .api-table tbody tr:nth-child(even) td { background: var(--accent-soft); }
+
+  .docs-toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+
+  .docs-toc-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .docs-toc ol {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 500px) { .docs-toc ol { grid-template-columns: 1fr; } }
+
+  .docs-toc a { color: var(--accent); text-decoration: none; }
+  .docs-toc a:hover { text-decoration: underline; }
+
+  .docs-note {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+</style>
+
+<div class="docs-wrap">
+  <a href="{{ '/fr/sdks/' | relative_url }}" class="docs-back">← SDK</a>
+
+  <div class="docs-eyebrow">SDK Python</div>
+  <h1 class="docs-title">majorsilence-reporting</h1>
+  <p class="docs-lead">Générez des rapports RDL en PDF, Excel, CSV et plus depuis Python — via sous-processus, un binaire AOT, ou une FFI ctypes en processus. Aucune dépendance runtime en dehors de la bibliothèque standard.</p>
+
+  <div class="docs-toc">
+    <div class="docs-toc-title">Sur cette page</div>
+    <ol>
+      <li><a href="#install">Installation</a></li>
+      <li><a href="#modes">Modes d'intégration</a></li>
+      <li><a href="#report">Report (sous-processus)</a></li>
+      <li><a href="#aot">ReportAot (binaire AOT)</a></li>
+      <li><a href="#native">report_native (FFI)</a></li>
+      <li><a href="#api">API principale</a></li>
+      <li><a href="#add-data">Jeux de données en mémoire</a></li>
+      <li><a href="#formats">Formats d'export</a></li>
+    </ol>
+  </div>
+
+  <hr class="docs-rule" id="install">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Installation</h2>
+    <p class="docs-p">Installez depuis PyPI (Python 3.10+ requis) :</p>
+    <pre><span class="tok-cm"># PyPI</span>
+pip install majorsilence-reporting
+
+<span class="tok-cm"># Ou en mode éditable depuis les sources</span>
+pip install -e .</pre>
+    <p class="docs-p">Aucune dépendance runtime — utilise uniquement la bibliothèque standard Python (<code>subprocess</code>, <code>ctypes</code>, <code>tempfile</code>).</p>
+  </div>
+
+  <hr class="docs-rule" id="modes">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Modes d'intégration</h2>
+    <p class="docs-p">Trois classes sont disponibles selon la manière dont vous déployez le moteur de reporting :</p>
+    <table class="api-table">
+      <thead><tr><th>Classe</th><th>Mécanisme</th><th>Prérequis</th></tr></thead>
+      <tbody>
+        <tr><td>Report</td><td>Lance <code>dotnet RdlCmd.dll</code> comme processus enfant.</td><td>Runtime .NET installé sur le serveur.</td></tr>
+        <tr><td>ReportAot</td><td>Lance un binaire <code>RdlCmd</code> autonome compilé en AOT.</td><td>Binaire AOT déployé aux côtés de l'application. Aucun runtime .NET requis.</td></tr>
+        <tr><td>report_native.Report</td><td>Charge <code>librdlnative.so</code> en processus via <code>ctypes</code>.</td><td>Bibliothèque native + fichiers <code>.so</code> associés déployés. Appelez <code>load_library()</code> une fois au démarrage.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="docs-rule" id="report">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Report — sous-processus (dotnet)</h2>
+    <pre><span class="tok-kw">from</span> majorsilence_reporting <span class="tok-kw">import</span> Report
+
+rpt = Report(
+    report_path  = <span class="tok-str">'/path/to/report.rdl'</span>,
+    rdl_cmd_path = <span class="tok-str">'/path/to/RdlCmd.dll'</span>,
+)
+rpt.set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>)
+rpt.set_parameter(<span class="tok-str">'StartDate'</span>, <span class="tok-str">'2026-01-01'</span>)
+
+<span class="tok-cm"># Enregistrer dans un fichier</span>
+rpt.export(<span class="tok-str">'pdf'</span>, <span class="tok-str">'/tmp/output.pdf'</span>)
+
+<span class="tok-cm"># Ou obtenir les octets en mémoire (par ex. pour une réponse Flask)</span>
+data = rpt.export_to_memory(<span class="tok-str">'pdf'</span>)
+<span class="tok-kw">return</span> Response(data, mimetype=<span class="tok-str">'application/pdf'</span>)</pre>
+  </div>
+
+  <hr class="docs-rule" id="aot">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">ReportAot — binaire AOT</h2>
+    <p class="docs-p">Même API que <code>Report</code>, mais pointe vers un binaire autonome plutôt qu'une DLL. Aucun runtime .NET requis sur le serveur.</p>
+    <pre><span class="tok-kw">from</span> majorsilence_reporting <span class="tok-kw">import</span> ReportAot
+
+rpt = ReportAot(
+    report_path  = <span class="tok-str">'/path/to/report.rdl'</span>,
+    rdl_cmd_path = <span class="tok-str">'/path/to/RdlCmd'</span>,   <span class="tok-cm"># binaire autonome, sans extension .dll</span>
+)
+rpt.set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>)
+data = rpt.export_to_memory(<span class="tok-str">'xlsx'</span>)
+
+<span class="tok-cm"># ReportAot prend aussi en charge xlsx_table, tifb, et mht</span>
+data = rpt.export_to_memory(<span class="tok-str">'xlsx_table'</span>)</pre>
+  </div>
+
+  <hr class="docs-rule" id="native">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">report_native — FFI en processus</h2>
+    <p class="docs-p">Le mode natif charge <code>librdlnative.so</code> directement dans le processus Python via <code>ctypes</code>. Aucun processus enfant n'est lancé, ce qui en fait l'option à la plus faible latence. Il permet aussi un vrai rendu en mémoire — les octets du rapport sont renvoyés directement depuis le tampon natif sans écrire de fichier temporaire.</p>
+    <pre><span class="tok-kw">from</span> majorsilence_reporting.report_native <span class="tok-kw">import</span> load_library, Report
+
+<span class="tok-cm"># À appeler une fois au démarrage du processus. Charge librdlnative.so et toutes les bibliothèques associées.</span>
+lib = load_library(<span class="tok-str">'/path/to/librdlnative.so'</span>)
+
+rpt = Report(lib, report_path=<span class="tok-str">'/path/to/report.rdl'</span>)
+rpt.set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>)
+
+<span class="tok-cm"># Renvoie les octets directement depuis le tampon natif — aucun fichier temporaire écrit</span>
+data = rpt.export_to_memory(<span class="tok-str">'pdf'</span>)
+
+<span class="tok-cm"># À transmettre à Django / FastAPI / Flask comme réponse binaire</span>
+<span class="tok-kw">return</span> Response(data, media_type=<span class="tok-str">'application/pdf'</span>)</pre>
+
+    <div class="docs-note">
+      <code>load_library()</code> définit <code>RDLNATIVE_LIB_DIR</code> et précharge toutes les bibliothèques <code>.so</code> / <code>.dylib</code> associées avec <code>RTLD_GLOBAL</code> afin que le résolveur P/Invoke .NET les trouve correctement. Appelez-la une fois par processus avant de créer la moindre instance <code>Report</code>.
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="api">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">API principale</h2>
+    <p class="docs-p">Les trois classes partagent la même interface :</p>
+    <table class="api-table">
+      <thead><tr><th>Méthode</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>set_connection_string(cs)</td><td>Définit la chaîne de connexion à la base de données utilisée par le rapport. À appeler avant <code>export</code>.</td></tr>
+        <tr><td>set_parameter(name, value)</td><td>Définit un paramètre de rapport nommé. Les deux arguments sont des chaînes. Peut être appelée autant de fois que nécessaire.</td></tr>
+        <tr><td>export(format, path)</td><td>Génère le rapport et écrit la sortie vers <code>path</code> sur le disque.</td></tr>
+        <tr><td>export_to_memory(format)</td><td>Génère et renvoie la sortie sous forme de <code>bytes</code> (formats binaires) ou <code>str</code> (formats texte). Pour <code>report_native.Report</code>, renvoie toujours des <code>bytes</code>.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="docs-rule" id="add-data">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Jeux de données en mémoire</h2>
+    <p class="docs-p"><code>report_native.Report</code> permet de fournir des données entièrement en mémoire via <code>add_data()</code> — aucune connexion à une base de données requise. Passez un nom de jeu de données et une liste de dictionnaires où chaque valeur est une chaîne.</p>
+    <pre><span class="tok-kw">from</span> majorsilence_reporting.report_native <span class="tok-kw">import</span> load_library, Report
+
+lib = load_library(<span class="tok-str">'/path/to/librdlnative.so'</span>)
+rpt = Report(lib, report_path=<span class="tok-str">'/path/to/report.rdl'</span>)
+
+rpt.add_data(<span class="tok-str">'SalesData'</span>, [
+    {<span class="tok-str">'Product'</span>: <span class="tok-str">'PDF Library Pro'</span>,  <span class="tok-str">'Revenue'</span>: <span class="tok-str">'1200.00'</span>, <span class="tok-str">'Units'</span>: <span class="tok-str">'3'</span>},
+    {<span class="tok-str">'Product'</span>: <span class="tok-str">'Report Designer'</span>,   <span class="tok-str">'Revenue'</span>: <span class="tok-str">'250.00'</span>,  <span class="tok-str">'Units'</span>: <span class="tok-str">'1'</span>},
+    {<span class="tok-str">'Product'</span>: <span class="tok-str">'Support (12 mo.)'</span>,  <span class="tok-str">'Revenue'</span>: <span class="tok-str">'500.00'</span>,  <span class="tok-str">'Units'</span>: <span class="tok-str">'1'</span>},
+])
+
+data = rpt.export_to_memory(<span class="tok-str">'pdf'</span>)</pre>
+    <div class="docs-note">
+      <code>add_data()</code> active automatiquement <code>SkipDatabaseSchemaValidation</code>. Le nom du jeu de données doit correspondre à un jeu de données défini dans le fichier <code>.rdl</code>. Toutes les valeurs de champs doivent être des chaînes — convertissez les nombres et les dates avant de les passer.
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="formats">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Formats d'export</h2>
+    <table class="api-table">
+      <thead><tr><th>Chaîne de format</th><th>Sortie</th><th>Disponible dans</th></tr></thead>
+      <tbody>
+        <tr><td><code>pdf</code></td><td>PDF</td><td>Tous les modes</td></tr>
+        <tr><td><code>csv</code></td><td>Texte CSV</td><td>Tous les modes</td></tr>
+        <tr><td><code>xlsx</code></td><td>Classeur Excel</td><td>Tous les modes</td></tr>
+        <tr><td><code>xml</code></td><td>Données XML</td><td>Tous les modes</td></tr>
+        <tr><td><code>rtf</code></td><td>Rich Text Format</td><td>Tous les modes</td></tr>
+        <tr><td><code>tif</code></td><td>Image TIFF (couleur)</td><td>Tous les modes</td></tr>
+        <tr><td><code>html</code></td><td>HTML</td><td>Tous les modes</td></tr>
+        <tr><td><code>xlsx_table</code></td><td>Excel (style tableau)</td><td>ReportAot + natif uniquement</td></tr>
+        <tr><td><code>tifb</code></td><td>Image TIFF (noir &amp; blanc)</td><td>ReportAot + natif uniquement</td></tr>
+        <tr><td><code>mht</code></td><td>Archive web MHTML</td><td>ReportAot + natif uniquement</td></tr>
+      </tbody>
+    </table>
+    <div class="docs-note">
+      Une chaîne de format non reconnue bascule silencieusement vers <code>pdf</code>. Toutes les méthodes sont synchrones — encapsulez-les dans <code>asyncio.get_event_loop().run_in_executor(None, ...)</code> si vous devez les appeler depuis du code asynchrone sans bloquer.
+    </div>
+  </div>
+</div>

@@ -1,0 +1,365 @@
+---
+layout: default
+lang: fr
+title: "SDK Rust"
+description: "Utilisez Majorsilence Reporting depuis Rust — FFI native en processus via libloading. Aucun runtime requis."
+---
+
+<style>
+  .docs-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .docs-back {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 28px;
+  }
+
+  .docs-back:hover { text-decoration: underline; }
+
+  .docs-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .docs-title {
+    font-family: 'Newsreader', serif;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 20px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  @media (max-width: 600px) { .docs-title { font-size: 34px; } }
+
+  .docs-lead {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 36px;
+  }
+
+  hr.docs-rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 40px 0;
+  }
+
+  .docs-h2 {
+    font-family: 'Newsreader', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  .docs-h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 28px 0 8px;
+  }
+
+  .docs-p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+
+  .docs-section { margin-bottom: 40px; }
+
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+
+  .api-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .api-table td {
+    padding: 9px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .api-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .api-table tr:last-child td { border-bottom: none; }
+  .api-table tbody tr:nth-child(even) td { background: var(--accent-soft); }
+
+  .docs-toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+
+  .docs-toc-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .docs-toc ol {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 500px) { .docs-toc ol { grid-template-columns: 1fr; } }
+
+  .docs-toc a { color: var(--accent); text-decoration: none; }
+  .docs-toc a:hover { text-decoration: underline; }
+
+  .docs-note {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+</style>
+
+<div class="docs-wrap">
+  <a href="{{ '/fr/sdks/' | relative_url }}" class="docs-back">← SDK</a>
+
+  <div class="docs-eyebrow">SDK Rust</div>
+  <h1 class="docs-title">majorsilence-reporting</h1>
+  <p class="docs-lead">Générez des rapports RDL en PDF, Excel, CSV et plus depuis Rust — via une FFI native en processus grâce à <code>libloading</code>. Aucun runtime .NET. Aucun sous-processus. Handle de bibliothèque thread-safe, adossé à <code>Arc</code>. Une seule dépendance.</p>
+
+  <div class="docs-toc">
+    <div class="docs-toc-title">Sur cette page</div>
+    <ol>
+      <li><a href="#install">Installation</a></li>
+      <li><a href="#quickstart">Démarrage rapide</a></li>
+      <li><a href="#loading">Chargement de la bibliothèque</a></li>
+      <li><a href="#api">API principale</a></li>
+      <li><a href="#add-data">Jeux de données en mémoire</a></li>
+      <li><a href="#memory">Export en mémoire</a></li>
+      <li><a href="#errors">Gestion des erreurs</a></li>
+      <li><a href="#formats">Formats d'export</a></li>
+    </ol>
+  </div>
+
+  <hr class="docs-rule" id="install">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Installation</h2>
+    <p class="docs-p">Le crate n'est pas encore publié sur crates.io. Ajoutez-le comme dépendance locale (path) :</p>
+    <pre><span class="tok-cm"># Cargo.toml</span>
+[dependencies]
+majorsilence-reporting = { path = <span class="tok-str">"/path/to/reporting-rust"</span> }
+
+<span class="tok-cm"># Une fois publié sur crates.io :</span>
+<span class="tok-cm"># majorsilence-reporting = "1.0"</span></pre>
+    <p class="docs-p">La seule dépendance en runtime est <code>libloading = "0.8"</code>. Édition Rust 2021, Rust 1.65 minimum.</p>
+  </div>
+
+  <hr class="docs-rule" id="quickstart">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Démarrage rapide</h2>
+    <pre><span class="tok-kw">use</span> majorsilence_reporting::RdlLibrary;
+
+<span class="tok-kw">fn</span> <span class="tok-ty">main</span>() -> Result&lt;(), Box&lt;<span class="tok-kw">dyn</span> std::error::Error&gt;&gt; {
+    <span class="tok-cm">// Charger la bibliothèque native une fois par processus.</span>
+    <span class="tok-kw">let</span> lib = RdlLibrary::load(<span class="tok-str">"/path/to/rdlnative/librdlnative.so"</span>)?;
+
+    <span class="tok-cm">// Construire une configuration de rapport.</span>
+    <span class="tok-kw">let mut</span> rpt = lib.report(<span class="tok-str">"/path/to/report.rdl"</span>);
+    rpt.set_connection_string(<span class="tok-str">"Data Source=/path/to/northwindEF.db"</span>)
+       .set_parameter(<span class="tok-str">"Country"</span>, <span class="tok-str">"Germany"</span>);
+
+    <span class="tok-cm">// Exporter vers un fichier.</span>
+    rpt.export(<span class="tok-str">"pdf"</span>, <span class="tok-str">"/tmp/output.pdf"</span>)?;
+
+    <span class="tok-cm">// Ou exporter en mémoire — aucun fichier temporaire écrit.</span>
+    <span class="tok-kw">let</span> pdf_bytes: Vec&lt;u8&gt; = rpt.export_to_memory(<span class="tok-str">"pdf"</span>)?;
+    println!(<span class="tok-str">"{} octets obtenus"</span>, pdf_bytes.len());
+
+    Ok(())
+}</pre>
+  </div>
+
+  <hr class="docs-rule" id="loading">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Chargement de la bibliothèque</h2>
+    <p class="docs-p"><code>RdlLibrary::load</code> effectue toute la configuration nécessaire : il définit <code>RDLNATIVE_LIB_DIR</code>, précharge les fichiers <code>.so</code> / <code>.dylib</code> associés avec <code>RTLD_GLOBAL</code> afin que le résolveur P/Invoke .NET puisse les trouver, résout tous les symboles FFI, et appelle <code>rdl_init()</code>.</p>
+    <pre><span class="tok-kw">use</span> majorsilence_reporting::RdlLibrary;
+
+<span class="tok-cm">// À appeler une fois au démarrage du processus. RdlLibrary est adossé à Arc — clonage peu coûteux et Send + Sync.</span>
+<span class="tok-kw">let</span> lib = RdlLibrary::load(<span class="tok-str">"/path/to/librdlnative.so"</span>)?;
+
+<span class="tok-cm">// Le cloner entre threads (par ex. dans un état Axum ou une Data Actix)</span>
+<span class="tok-kw">let</span> lib2 = lib.clone();
+std::thread::spawn(<span class="tok-kw">move</span> || {
+    <span class="tok-kw">let mut</span> rpt = lib2.report(<span class="tok-str">"/path/to/report.rdl"</span>);
+    rpt.export(<span class="tok-str">"pdf"</span>, <span class="tok-str">"/tmp/thread.pdf"</span>).unwrap();
+});</pre>
+
+    <div class="docs-note">
+      <code>LD_LIBRARY_PATH</code> (Linux) ou <code>DYLD_LIBRARY_PATH</code> (macOS) doit inclure le répertoire de la bibliothèque native avant le démarrage du processus. <code>RdlLibrary::load</code> gère <code>RDLNATIVE_LIB_DIR</code> et le préchargement des bibliothèques associées, mais ne peut pas modifier rétroactivement le chemin de recherche de l'éditeur de liens dynamique pour le processus en cours.
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="api">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">API principale</h2>
+    <p class="docs-p">Les méthodes de construction renvoient <code>&amp;mut Self</code> pour permettre le chaînage. Un nouveau handle de rapport natif est ouvert puis fermé à chaque appel à <code>export</code> ou <code>export_to_memory</code>, si bien qu'une valeur <code>Report</code> peut être réutilisée pour plusieurs rendus.</p>
+    <table class="api-table">
+      <thead><tr><th>Méthode</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>RdlLibrary::load(path)</td><td>Charge la bibliothèque native et initialise la table de symboles FFI. Renvoie <code>Result&lt;RdlLibrary, Error&gt;</code>. À appeler une fois par processus.</td></tr>
+        <tr><td>lib.report(rdl_path)</td><td>Crée une valeur <code>Report</code> liée à un fichier <code>.rdl</code>. Peu coûteux — aucun handle natif n'est encore ouvert.</td></tr>
+        <tr><td>rpt.set_connection_string(cs)</td><td>Définit la chaîne de connexion à la base de données. Renvoie <code>&amp;mut Self</code>.</td></tr>
+        <tr><td>rpt.set_parameter(name, value)</td><td>Définit un paramètre de rapport nommé. Renvoie <code>&amp;mut Self</code>. Peut être appelée autant de fois que nécessaire.</td></tr>
+        <tr><td>rpt.add_data(name, rows)</td><td>Fournit un jeu de données en mémoire. <code>rows</code> est de type <code>Vec&lt;HashMap&lt;String, String&gt;&gt;</code>. Renvoie <code>&amp;mut Self</code>. Voir <a href="#add-data">Jeux de données en mémoire</a>.</td></tr>
+        <tr><td>rpt.export(format, path)</td><td>Génère le rendu et l'écrit vers un chemin de fichier. Renvoie <code>Result&lt;(), Error&gt;</code>.</td></tr>
+        <tr><td>rpt.export_to_memory(format)</td><td>Génère le rendu et renvoie les octets. Renvoie <code>Result&lt;Vec&lt;u8&gt;, Error&gt;</code>. Aucun fichier temporaire n'est écrit.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="docs-rule" id="add-data">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Jeux de données en mémoire</h2>
+    <p class="docs-p">Transmettez des données structurées directement au rapport sans base de données. Chaque ligne est un <code>HashMap&lt;String, String&gt;</code> dont les clés sont les noms de colonnes et les valeurs les champs encodés en chaînes.</p>
+    <pre><span class="tok-kw">use</span> std::collections::HashMap;
+<span class="tok-kw">use</span> majorsilence_reporting::RdlLibrary;
+
+<span class="tok-kw">let</span> lib = RdlLibrary::load(<span class="tok-str">"/path/to/librdlnative.so"</span>)?;
+<span class="tok-kw">let mut</span> rpt = lib.report(<span class="tok-str">"/path/to/report.rdl"</span>);
+
+<span class="tok-kw">let</span> rows: Vec&lt;HashMap&lt;String, String&gt;&gt; = <span class="tok-kw">vec</span>![
+    [(<span class="tok-str">"Product"</span>, <span class="tok-str">"PDF Library Pro"</span>), (<span class="tok-str">"Revenue"</span>, <span class="tok-str">"1200.00"</span>), (<span class="tok-str">"Units"</span>, <span class="tok-str">"3"</span>)]
+        .iter().map(|(k, v)| (k.to_string(), v.to_string())).collect(),
+    [(<span class="tok-str">"Product"</span>, <span class="tok-str">"Report Designer"</span>),  (<span class="tok-str">"Revenue"</span>, <span class="tok-str">"250.00"</span>),  (<span class="tok-str">"Units"</span>, <span class="tok-str">"1"</span>)]
+        .iter().map(|(k, v)| (k.to_string(), v.to_string())).collect(),
+];
+
+rpt.add_data(<span class="tok-str">"SalesData"</span>, rows);
+<span class="tok-kw">let</span> pdf = rpt.export_to_memory(<span class="tok-str">"pdf"</span>)?;</pre>
+
+    <div class="docs-note">
+      Le nom du jeu de données doit correspondre à un jeu de données défini dans le fichier <code>.rdl</code>. Toutes les valeurs de champs doivent être des chaînes — convertissez les nombres, dates et booléens avant de les insérer dans la map. Plusieurs jeux de données peuvent être fournis avec plusieurs appels à <code>add_data</code>.
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="memory">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Export en mémoire</h2>
+    <p class="docs-p"><code>export_to_memory</code> appelle la fonction FFI native <code>rdl_report_render_buffer</code>, qui remplit un tampon alloué côté natif et renvoie un pointeur et une longueur. Le wrapper Rust copie les octets dans un <code>Vec&lt;u8&gt;</code> et appelle <code>rdl_free</code>. Aucun fichier temporaire n'est écrit à aucun moment — utile pour les corps de réponse HTTP ou l'intégration dans un pipeline.</p>
+    <pre><span class="tok-cm">// Exemple de handler Axum</span>
+<span class="tok-kw">async fn</span> report_handler(State(lib): State&lt;RdlLibrary&gt;) -> <span class="tok-kw">impl</span> IntoResponse {
+    <span class="tok-kw">let mut</span> rpt = lib.report(<span class="tok-str">"/reports/sales.rdl"</span>);
+    rpt.set_connection_string(<span class="tok-str">"Data Source=/data/northwindEF.db"</span>);
+
+    <span class="tok-kw">match</span> rpt.export_to_memory(<span class="tok-str">"pdf"</span>) {
+        Ok(bytes) => (
+            StatusCode::OK,
+            [(<span class="tok-str">"content-type"</span>, <span class="tok-str">"application/pdf"</span>)],
+            bytes,
+        ).into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
+    }
+}</pre>
+  </div>
+
+  <hr class="docs-rule" id="errors">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Gestion des erreurs</h2>
+    <p class="docs-p">Toutes les opérations faillibles renvoient <code>Result&lt;T, majorsilence_reporting::Error&gt;</code>. <code>Error</code> implémente <code>std::error::Error</code> et encapsule le message renvoyé par la fonction native <code>rdl_last_error()</code>.</p>
+    <pre><span class="tok-kw">match</span> rpt.export_to_memory(<span class="tok-str">"pdf"</span>) {
+    Ok(bytes) => { <span class="tok-cm">/* utiliser bytes */</span> }
+    Err(e)    => eprintln!(<span class="tok-str">"échec du rendu : {e}"</span>),
+}
+
+<span class="tok-cm">// Ou propager avec ?</span>
+<span class="tok-kw">let</span> bytes = rpt.export_to_memory(<span class="tok-str">"pdf"</span>)?;</pre>
+    <div class="docs-note">
+      Une chaîne de format non reconnue ne renvoie pas d'erreur — elle bascule silencieusement vers <code>"pdf"</code>. Pour énumérer les formats valides à la compilation, utilisez la constante publique <code>majorsilence_reporting::VALID_FORMATS: &amp;[&amp;str]</code>.
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="formats">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Formats d'export</h2>
+    <p class="docs-p">Les dix formats sont pris en charge. Contrairement aux modes sous-processus de Python/PHP/Ruby, <em>tous</em> les formats sont disponibles dans le wrapper Rust car il utilise toujours le chemin FFI natif.</p>
+    <table class="api-table">
+      <thead><tr><th>Chaîne de format</th><th>Sortie</th></tr></thead>
+      <tbody>
+        <tr><td><code>pdf</code></td><td>PDF (aussi le format de repli pour toute chaîne non reconnue)</td></tr>
+        <tr><td><code>csv</code></td><td>Valeurs séparées par des virgules</td></tr>
+        <tr><td><code>xlsx</code></td><td>Classeur Excel</td></tr>
+        <tr><td><code>xlsx_table</code></td><td>Classeur Excel (style tableau)</td></tr>
+        <tr><td><code>xml</code></td><td>Données XML</td></tr>
+        <tr><td><code>rtf</code></td><td>Rich Text Format</td></tr>
+        <tr><td><code>tif</code></td><td>Image TIFF (couleur)</td></tr>
+        <tr><td><code>tifb</code></td><td>Image TIFF (noir &amp; blanc)</td></tr>
+        <tr><td><code>html</code></td><td>HTML</td></tr>
+        <tr><td><code>mht</code></td><td>Archive web MHTML</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

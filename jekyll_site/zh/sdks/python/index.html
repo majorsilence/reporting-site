@@ -1,0 +1,351 @@
+---
+layout: default
+lang: zh
+title: "Python SDK"
+description: "从 Python 使用 Majorsilence Reporting —— 子进程、AOT 二进制文件,或原生 ctypes FFI。"
+---
+
+<style>
+  .docs-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .docs-back {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 28px;
+  }
+
+  .docs-back:hover { text-decoration: underline; }
+
+  .docs-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .docs-title {
+    font-family: 'Newsreader', serif;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 20px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  @media (max-width: 600px) { .docs-title { font-size: 34px; } }
+
+  .docs-lead {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 36px;
+  }
+
+  hr.docs-rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 40px 0;
+  }
+
+  .docs-h2 {
+    font-family: 'Newsreader', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  .docs-h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 28px 0 8px;
+  }
+
+  .docs-p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+
+  .docs-section { margin-bottom: 40px; }
+
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+
+  .api-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .api-table td {
+    padding: 9px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .api-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .api-table tr:last-child td { border-bottom: none; }
+  .api-table tbody tr:nth-child(even) td { background: var(--accent-soft); }
+
+  .docs-toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+
+  .docs-toc-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .docs-toc ol {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 500px) { .docs-toc ol { grid-template-columns: 1fr; } }
+
+  .docs-toc a { color: var(--accent); text-decoration: none; }
+  .docs-toc a:hover { text-decoration: underline; }
+
+  .docs-note {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+</style>
+
+<div class="docs-wrap">
+  <a href="{{ '/zh/sdks/' | relative_url }}" class="docs-back">← SDK</a>
+
+  <div class="docs-eyebrow">Python SDK</div>
+  <h1 class="docs-title">majorsilence-reporting</h1>
+  <p class="docs-lead">从 Python 生成 PDF、Excel、CSV 等格式的 RDL 报表——通过子进程、AOT 二进制文件,或进程内 ctypes FFI。除标准库外无其他运行时依赖。</p>
+
+  <div class="docs-toc">
+    <div class="docs-toc-title">本页内容</div>
+    <ol>
+      <li><a href="#install">安装</a></li>
+      <li><a href="#modes">集成模式</a></li>
+      <li><a href="#report">Report(子进程)</a></li>
+      <li><a href="#aot">ReportAot(AOT 二进制)</a></li>
+      <li><a href="#native">report_native(FFI)</a></li>
+      <li><a href="#api">核心 API</a></li>
+      <li><a href="#add-data">内存数据集</a></li>
+      <li><a href="#formats">导出格式</a></li>
+    </ol>
+  </div>
+
+  <hr class="docs-rule" id="install">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">安装</h2>
+    <p class="docs-p">通过 PyPI 安装(需要 Python 3.10+):</p>
+    <pre><span class="tok-cm"># PyPI</span>
+pip install majorsilence-reporting
+
+<span class="tok-cm"># 或以可编辑模式从源代码安装</span>
+pip install -e .</pre>
+    <p class="docs-p">无运行时依赖——仅使用 Python 标准库(<code>subprocess</code>、<code>ctypes</code>、<code>tempfile</code>)。</p>
+  </div>
+
+  <hr class="docs-rule" id="modes">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">集成模式</h2>
+    <p class="docs-p">根据你部署报表引擎的方式,提供三个可用的类:</p>
+    <table class="api-table">
+      <thead><tr><th>类</th><th>机制</th><th>前提条件</th></tr></thead>
+      <tbody>
+        <tr><td>Report</td><td>以子进程方式启动 <code>dotnet RdlCmd.dll</code>。</td><td>服务器上已安装 .NET 运行时。</td></tr>
+        <tr><td>ReportAot</td><td>启动自包含的 AOT 编译 <code>RdlCmd</code> 二进制文件。</td><td>AOT 二进制文件与应用一同部署。无需 .NET 运行时。</td></tr>
+        <tr><td>report_native.Report</td><td>通过 <code>ctypes</code> 在进程内加载 <code>librdlnative.so</code>。</td><td>已部署原生库及相关 <code>.so</code> 文件。启动时调用一次 <code>load_library()</code>。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="docs-rule" id="report">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">Report —— 子进程(dotnet)</h2>
+    <pre><span class="tok-kw">from</span> majorsilence_reporting <span class="tok-kw">import</span> Report
+
+rpt = Report(
+    report_path  = <span class="tok-str">'/path/to/report.rdl'</span>,
+    rdl_cmd_path = <span class="tok-str">'/path/to/RdlCmd.dll'</span>,
+)
+rpt.set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>)
+rpt.set_parameter(<span class="tok-str">'StartDate'</span>, <span class="tok-str">'2026-01-01'</span>)
+
+<span class="tok-cm"># 保存为文件</span>
+rpt.export(<span class="tok-str">'pdf'</span>, <span class="tok-str">'/tmp/output.pdf'</span>)
+
+<span class="tok-cm"># 或在内存中获取字节(例如用于 Flask 响应)</span>
+data = rpt.export_to_memory(<span class="tok-str">'pdf'</span>)
+<span class="tok-kw">return</span> Response(data, mimetype=<span class="tok-str">'application/pdf'</span>)</pre>
+  </div>
+
+  <hr class="docs-rule" id="aot">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">ReportAot —— AOT 二进制</h2>
+    <p class="docs-p">与 <code>Report</code> 使用相同的 API,但指向自包含的二进制文件,而非 DLL。服务器无需 .NET 运行时。</p>
+    <pre><span class="tok-kw">from</span> majorsilence_reporting <span class="tok-kw">import</span> ReportAot
+
+rpt = ReportAot(
+    report_path  = <span class="tok-str">'/path/to/report.rdl'</span>,
+    rdl_cmd_path = <span class="tok-str">'/path/to/RdlCmd'</span>,   <span class="tok-cm"># 自包含二进制文件,无 .dll 扩展名</span>
+)
+rpt.set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>)
+data = rpt.export_to_memory(<span class="tok-str">'xlsx'</span>)
+
+<span class="tok-cm"># ReportAot 还支持 xlsx_table、tifb 和 mht</span>
+data = rpt.export_to_memory(<span class="tok-str">'xlsx_table'</span>)</pre>
+  </div>
+
+  <hr class="docs-rule" id="native">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">report_native —— 进程内 FFI</h2>
+    <p class="docs-p">原生模式通过 <code>ctypes</code> 将 <code>librdlnative.so</code> 直接加载到 Python 进程中。不会启动任何子进程,是延迟最低的选项。它还支持真正的内存渲染——报表字节直接从原生缓冲区返回,无需写入临时文件。</p>
+    <pre><span class="tok-kw">from</span> majorsilence_reporting.report_native <span class="tok-kw">import</span> load_library, Report
+
+<span class="tok-cm"># 在进程启动时调用一次。加载 librdlnative.so 及所有相关库。</span>
+lib = load_library(<span class="tok-str">'/path/to/librdlnative.so'</span>)
+
+rpt = Report(lib, report_path=<span class="tok-str">'/path/to/report.rdl'</span>)
+rpt.set_connection_string(<span class="tok-str">'Data Source=/path/to/data.db'</span>)
+
+<span class="tok-cm"># 直接从原生缓冲区返回字节——不写入临时文件</span>
+data = rpt.export_to_memory(<span class="tok-str">'pdf'</span>)
+
+<span class="tok-cm"># 作为二进制响应传递给 Django / FastAPI / Flask</span>
+<span class="tok-kw">return</span> Response(data, media_type=<span class="tok-str">'application/pdf'</span>)</pre>
+
+    <div class="docs-note">
+      <code>load_library()</code> 会设置 <code>RDLNATIVE_LIB_DIR</code>,并以 <code>RTLD_GLOBAL</code> 方式预加载所有相关的 <code>.so</code> / <code>.dylib</code> 文件,以便 .NET P/Invoke 能正确解析它们。请在创建任何 <code>Report</code> 实例之前,每个进程调用一次。
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="api">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">核心 API</h2>
+    <p class="docs-p">三个类共享同一接口:</p>
+    <table class="api-table">
+      <thead><tr><th>方法</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>set_connection_string(cs)</td><td>设置报表所使用的数据库连接字符串。需在 <code>export</code> 之前调用。</td></tr>
+        <tr><td>set_parameter(name, value)</td><td>设置一个具名报表参数。两个参数均为字符串。可根据需要多次调用。</td></tr>
+        <tr><td>export(format, path)</td><td>渲染报表并将输出写入磁盘上的 <code>path</code>。</td></tr>
+        <tr><td>export_to_memory(format)</td><td>渲染并以 <code>bytes</code>(二进制格式)或 <code>str</code>(文本格式)形式返回输出。对于 <code>report_native.Report</code>,始终返回 <code>bytes</code>。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="docs-rule" id="add-data">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">内存数据集</h2>
+    <p class="docs-p"><code>report_native.Report</code> 支持通过 <code>add_data()</code> 完全在内存中提供数据——无需数据库连接。传入数据集名称和一个字典列表,其中每个值都是字符串。</p>
+    <pre><span class="tok-kw">from</span> majorsilence_reporting.report_native <span class="tok-kw">import</span> load_library, Report
+
+lib = load_library(<span class="tok-str">'/path/to/librdlnative.so'</span>)
+rpt = Report(lib, report_path=<span class="tok-str">'/path/to/report.rdl'</span>)
+
+rpt.add_data(<span class="tok-str">'SalesData'</span>, [
+    {<span class="tok-str">'Product'</span>: <span class="tok-str">'PDF Library Pro'</span>,  <span class="tok-str">'Revenue'</span>: <span class="tok-str">'1200.00'</span>, <span class="tok-str">'Units'</span>: <span class="tok-str">'3'</span>},
+    {<span class="tok-str">'Product'</span>: <span class="tok-str">'Report Designer'</span>,   <span class="tok-str">'Revenue'</span>: <span class="tok-str">'250.00'</span>,  <span class="tok-str">'Units'</span>: <span class="tok-str">'1'</span>},
+    {<span class="tok-str">'Product'</span>: <span class="tok-str">'Support (12 mo.)'</span>,  <span class="tok-str">'Revenue'</span>: <span class="tok-str">'500.00'</span>,  <span class="tok-str">'Units'</span>: <span class="tok-str">'1'</span>},
+])
+
+data = rpt.export_to_memory(<span class="tok-str">'pdf'</span>)</pre>
+    <div class="docs-note">
+      <code>add_data()</code> 会自动设置 <code>SkipDatabaseSchemaValidation</code>。数据集名称必须与 <code>.rdl</code> 文件中定义的数据集匹配。所有字段值都必须是字符串——在传入前请先转换数字和日期。
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="formats">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">导出格式</h2>
+    <table class="api-table">
+      <thead><tr><th>格式字符串</th><th>输出</th><th>可用范围</th></tr></thead>
+      <tbody>
+        <tr><td><code>pdf</code></td><td>PDF</td><td>所有模式</td></tr>
+        <tr><td><code>csv</code></td><td>CSV 文本</td><td>所有模式</td></tr>
+        <tr><td><code>xlsx</code></td><td>Excel 工作簿</td><td>所有模式</td></tr>
+        <tr><td><code>xml</code></td><td>XML 数据</td><td>所有模式</td></tr>
+        <tr><td><code>rtf</code></td><td>Rich Text Format</td><td>所有模式</td></tr>
+        <tr><td><code>tif</code></td><td>TIFF 图像(彩色)</td><td>所有模式</td></tr>
+        <tr><td><code>html</code></td><td>HTML</td><td>所有模式</td></tr>
+        <tr><td><code>xlsx_table</code></td><td>Excel(表格样式)</td><td>仅 ReportAot + 原生模式</td></tr>
+        <tr><td><code>tifb</code></td><td>TIFF 图像(黑白)</td><td>仅 ReportAot + 原生模式</td></tr>
+        <tr><td><code>mht</code></td><td>MHTML 网页存档</td><td>仅 ReportAot + 原生模式</td></tr>
+      </tbody>
+    </table>
+    <div class="docs-note">
+      无法识别的格式字符串会静默回退为 <code>pdf</code>。所有方法都是同步的——如需从异步代码中调用而不阻塞,请将其包装在 <code>asyncio.get_event_loop().run_in_executor(None, ...)</code> 中。
+    </div>
+  </div>
+</div>

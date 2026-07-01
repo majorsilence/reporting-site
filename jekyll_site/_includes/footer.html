@@ -1,15 +1,42 @@
+{% assign lang = page.lang | default: 'en' %}
+{% case lang %}
+  {% when 'fr' %}
+    {% assign sdks_href = site.baseurl | append: '/fr/sdks/' %}
+    {% assign footer_copy = 'Sous licence Apache 2.0 · &copy; 2026 Majorsilence Reporting' %}
+    {% assign footer_blog = 'blog' %}
+    {% assign footer_docs = 'documentation' %}
+    {% assign footer_sdks = 'sdks' %}
+  {% when 'es' %}
+    {% assign sdks_href = site.baseurl | append: '/es/sdks/' %}
+    {% assign footer_copy = 'Con licencia Apache 2.0 · &copy; 2026 Majorsilence Reporting' %}
+    {% assign footer_blog = 'blog' %}
+    {% assign footer_docs = 'documentación' %}
+    {% assign footer_sdks = 'sdks' %}
+  {% when 'zh' %}
+    {% assign sdks_href = site.baseurl | append: '/zh/sdks/' %}
+    {% assign footer_copy = '基于 Apache 2.0 许可 · &copy; 2026 Majorsilence Reporting' %}
+    {% assign footer_blog = '博客' %}
+    {% assign footer_docs = '文档' %}
+    {% assign footer_sdks = 'SDK' %}
+  {% else %}
+    {% assign sdks_href = site.baseurl | append: '/sdks/' %}
+    {% assign footer_copy = 'Apache 2.0 licensed · &copy; 2026 Majorsilence Reporting' %}
+    {% assign footer_blog = 'blog' %}
+    {% assign footer_docs = 'docs' %}
+    {% assign footer_sdks = 'sdks' %}
+{% endcase %}
 <footer class="site-footer">
   <div class="wrap">
     <div class="footer-brand">
       <span class="brand-icon">MR</span>
-      <span class="footer-copy">Apache 2.0 licensed · &copy; 2026 Majorsilence Reporting</span>
+      <span class="footer-copy">{{ footer_copy }}</span>
     </div>
     <div class="footer-links">
       <a href="https://github.com/majorsilence/Reporting" target="_blank" rel="noopener">github</a>
       <a href="https://www.nuget.org/packages/Majorsilence.Reporting.RdlEngine" target="_blank" rel="noopener">nuget</a>
-      <a href="https://github.com/majorsilence/Reporting/wiki" target="_blank" rel="noopener">docs</a>
-      <a href="{{ site.baseurl }}/posts/">blog</a>
-      <a href="{{ site.baseurl }}/sdks/">sdks</a>
+      <a href="https://github.com/majorsilence/Reporting/wiki" target="_blank" rel="noopener">{{ footer_docs }}</a>
+      <a href="{{ site.baseurl }}/posts/">{{ footer_blog }}</a>
+      <a href="{{ sdks_href }}">{{ footer_sdks }}</a>
     </div>
   </div>
 </footer>

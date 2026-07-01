@@ -1,9 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="system">
+{% assign html_lang = page.lang | default: 'en' %}
+{% if html_lang == 'zh' %}{% assign html_lang = 'zh-Hans' %}{% endif %}
+
+{% assign seo_lang = page.lang | default: 'en' %}
+{% assign seo_base_path = page.url %}
+{% if seo_lang == 'fr' %}{% assign seo_base_path = page.url | remove_first: '/fr' %}{% endif %}
+{% if seo_lang == 'es' %}{% assign seo_base_path = page.url | remove_first: '/es' %}{% endif %}
+{% if seo_lang == 'zh' %}{% assign seo_base_path = page.url | remove_first: '/zh' %}{% endif %}
+{% if seo_base_path == '' %}{% assign seo_base_path = '/' %}{% endif %}
+{% assign seo_localized = false %}
+{% if seo_base_path == '/' or seo_base_path contains '/sdks/' %}{% assign seo_localized = true %}{% endif %}
+
+<html lang="{{ html_lang }}" data-theme="system">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>{{ page.title }} | Majorsilence Reporting</title>
+  <title>{% if page.title and page.title != site.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}" />
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
+  {% if seo_localized %}
+  <link rel="alternate" hreflang="en" href="{{ site.url }}{{ seo_base_path }}" />
+  <link rel="alternate" hreflang="fr" href="{{ site.url }}/fr{{ seo_base_path }}" />
+  <link rel="alternate" hreflang="es" href="{{ site.url }}/es{{ seo_base_path }}" />
+  <link rel="alternate" hreflang="zh-Hans" href="{{ site.url }}/zh{{ seo_base_path }}" />
+  <link rel="alternate" hreflang="x-default" href="{{ site.url }}{{ seo_base_path }}" />
+  {% endif %}
   <script>
     (function(){
       try {

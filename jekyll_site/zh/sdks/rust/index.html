@@ -1,0 +1,365 @@
+---
+layout: default
+lang: zh
+title: "Rust SDK"
+description: "从 Rust 使用 Majorsilence Reporting —— 通过 libloading 实现进程内原生 FFI。无需运行时。"
+---
+
+<style>
+  .docs-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 64px 32px 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .docs-back {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 28px;
+  }
+
+  .docs-back:hover { text-decoration: underline; }
+
+  .docs-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .docs-title {
+    font-family: 'Newsreader', serif;
+    font-size: 48px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 20px;
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+
+  @media (max-width: 600px) { .docs-title { font-size: 34px; } }
+
+  .docs-lead {
+    font-family: 'Newsreader', serif;
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 36px;
+  }
+
+  hr.docs-rule {
+    border: none;
+    border-top: 1px solid var(--line);
+    margin: 40px 0;
+  }
+
+  .docs-h2 {
+    font-family: 'Newsreader', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 12px;
+  }
+
+  .docs-h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 28px 0 8px;
+  }
+
+  .docs-p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    margin: 0 0 16px;
+  }
+
+  .docs-section { margin-bottom: 40px; }
+
+  code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13.5px;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  .api-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+
+  .api-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .api-table td {
+    padding: 9px 12px;
+    vertical-align: top;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .api-table td:first-child {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+
+  .api-table tr:last-child td { border-bottom: none; }
+  .api-table tbody tr:nth-child(even) td { background: var(--accent-soft); }
+
+  .docs-toc {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 40px;
+  }
+
+  .docs-toc-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .docs-toc ol {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 500px) { .docs-toc ol { grid-template-columns: 1fr; } }
+
+  .docs-toc a { color: var(--accent); text-decoration: none; }
+  .docs-toc a:hover { text-decoration: underline; }
+
+  .docs-note {
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 16px;
+  }
+</style>
+
+<div class="docs-wrap">
+  <a href="{{ '/zh/sdks/' | relative_url }}" class="docs-back">← SDK</a>
+
+  <div class="docs-eyebrow">Rust SDK</div>
+  <h1 class="docs-title">majorsilence-reporting</h1>
+  <p class="docs-lead">从 Rust 生成 PDF、Excel、CSV 等格式的 RDL 报表——通过 <code>libloading</code> 实现进程内原生 FFI。无需 .NET 运行时,无需子进程。线程安全、基于 <code>Arc</code> 的库句柄。仅有一个依赖项。</p>
+
+  <div class="docs-toc">
+    <div class="docs-toc-title">本页内容</div>
+    <ol>
+      <li><a href="#install">安装</a></li>
+      <li><a href="#quickstart">快速开始</a></li>
+      <li><a href="#loading">加载库</a></li>
+      <li><a href="#api">核心 API</a></li>
+      <li><a href="#add-data">内存数据集</a></li>
+      <li><a href="#memory">导出到内存</a></li>
+      <li><a href="#errors">错误处理</a></li>
+      <li><a href="#formats">导出格式</a></li>
+    </ol>
+  </div>
+
+  <hr class="docs-rule" id="install">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">安装</h2>
+    <p class="docs-p">该 crate 尚未发布到 crates.io。请将其作为路径依赖添加:</p>
+    <pre><span class="tok-cm"># Cargo.toml</span>
+[dependencies]
+majorsilence-reporting = { path = <span class="tok-str">"/path/to/reporting-rust"</span> }
+
+<span class="tok-cm"># 发布到 crates.io 后:</span>
+<span class="tok-cm"># majorsilence-reporting = "1.0"</span></pre>
+    <p class="docs-p">唯一的运行时依赖是 <code>libloading = "0.8"</code>。Rust 2021 版,最低支持 Rust 1.65。</p>
+  </div>
+
+  <hr class="docs-rule" id="quickstart">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">快速开始</h2>
+    <pre><span class="tok-kw">use</span> majorsilence_reporting::RdlLibrary;
+
+<span class="tok-kw">fn</span> <span class="tok-ty">main</span>() -> Result&lt;(), Box&lt;<span class="tok-kw">dyn</span> std::error::Error&gt;&gt; {
+    <span class="tok-cm">// 每个进程只加载一次原生库。</span>
+    <span class="tok-kw">let</span> lib = RdlLibrary::load(<span class="tok-str">"/path/to/rdlnative/librdlnative.so"</span>)?;
+
+    <span class="tok-cm">// 构建报表配置。</span>
+    <span class="tok-kw">let mut</span> rpt = lib.report(<span class="tok-str">"/path/to/report.rdl"</span>);
+    rpt.set_connection_string(<span class="tok-str">"Data Source=/path/to/northwindEF.db"</span>)
+       .set_parameter(<span class="tok-str">"Country"</span>, <span class="tok-str">"Germany"</span>);
+
+    <span class="tok-cm">// 导出到文件。</span>
+    rpt.export(<span class="tok-str">"pdf"</span>, <span class="tok-str">"/tmp/output.pdf"</span>)?;
+
+    <span class="tok-cm">// 或者导出到内存——不写入任何临时文件。</span>
+    <span class="tok-kw">let</span> pdf_bytes: Vec&lt;u8&gt; = rpt.export_to_memory(<span class="tok-str">"pdf"</span>)?;
+    println!(<span class="tok-str">"获得 {} 字节"</span>, pdf_bytes.len());
+
+    Ok(())
+}</pre>
+  </div>
+
+  <hr class="docs-rule" id="loading">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">加载库</h2>
+    <p class="docs-p"><code>RdlLibrary::load</code> 会完成所有必要的准备工作:设置 <code>RDLNATIVE_LIB_DIR</code>,以 <code>RTLD_GLOBAL</code> 方式预加载相关的 <code>.so</code> / <code>.dylib</code> 文件,以便 .NET 的 P/Invoke 解析器能找到它们,解析所有 FFI 符号,并调用 <code>rdl_init()</code>。</p>
+    <pre><span class="tok-kw">use</span> majorsilence_reporting::RdlLibrary;
+
+<span class="tok-cm">// 在进程启动时调用一次。RdlLibrary 基于 Arc——克隆成本低,且满足 Send + Sync。</span>
+<span class="tok-kw">let</span> lib = RdlLibrary::load(<span class="tok-str">"/path/to/librdlnative.so"</span>)?;
+
+<span class="tok-cm">// 跨线程克隆(例如放入 Axum 的 state 或 Actix 的 Data 中)</span>
+<span class="tok-kw">let</span> lib2 = lib.clone();
+std::thread::spawn(<span class="tok-kw">move</span> || {
+    <span class="tok-kw">let mut</span> rpt = lib2.report(<span class="tok-str">"/path/to/report.rdl"</span>);
+    rpt.export(<span class="tok-str">"pdf"</span>, <span class="tok-str">"/tmp/thread.pdf"</span>).unwrap();
+});</pre>
+
+    <div class="docs-note">
+      在进程启动前,<code>LD_LIBRARY_PATH</code>(Linux)或 <code>DYLD_LIBRARY_PATH</code>(macOS)必须包含原生库所在目录。<code>RdlLibrary::load</code> 会处理 <code>RDLNATIVE_LIB_DIR</code> 及相关库的预加载,但无法为正在运行的进程追溯性地修改动态链接器的搜索路径。
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="api">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">核心 API</h2>
+    <p class="docs-p">构建器方法返回 <code>&amp;mut Self</code> 以支持链式调用。每次调用 <code>export</code> 或 <code>export_to_memory</code> 都会打开并关闭一个新的原生报表句柄,因此一个 <code>Report</code> 值可以在多次渲染中重复使用。</p>
+    <table class="api-table">
+      <thead><tr><th>方法</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>RdlLibrary::load(path)</td><td>加载原生库并初始化 FFI 符号表。返回 <code>Result&lt;RdlLibrary, Error&gt;</code>。每个进程调用一次。</td></tr>
+        <tr><td>lib.report(rdl_path)</td><td>创建一个绑定到 <code>.rdl</code> 文件的 <code>Report</code> 值。成本很低——此时尚未打开任何原生句柄。</td></tr>
+        <tr><td>rpt.set_connection_string(cs)</td><td>设置数据库连接字符串。返回 <code>&amp;mut Self</code>。</td></tr>
+        <tr><td>rpt.set_parameter(name, value)</td><td>设置一个具名报表参数。返回 <code>&amp;mut Self</code>。可根据需要多次调用。</td></tr>
+        <tr><td>rpt.add_data(name, rows)</td><td>提供一个内存数据集。<code>rows</code> 类型为 <code>Vec&lt;HashMap&lt;String, String&gt;&gt;</code>。返回 <code>&amp;mut Self</code>。参见<a href="#add-data">内存数据集</a>。</td></tr>
+        <tr><td>rpt.export(format, path)</td><td>渲染并写入文件路径。返回 <code>Result&lt;(), Error&gt;</code>。</td></tr>
+        <tr><td>rpt.export_to_memory(format)</td><td>渲染并返回字节。返回 <code>Result&lt;Vec&lt;u8&gt;, Error&gt;</code>。不写入任何临时文件。</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="docs-rule" id="add-data">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">内存数据集</h2>
+    <p class="docs-p">无需数据库即可将结构化数据直接传递给报表。每一行是一个 <code>HashMap&lt;String, String&gt;</code>,键为列名,值为以字符串编码的字段值。</p>
+    <pre><span class="tok-kw">use</span> std::collections::HashMap;
+<span class="tok-kw">use</span> majorsilence_reporting::RdlLibrary;
+
+<span class="tok-kw">let</span> lib = RdlLibrary::load(<span class="tok-str">"/path/to/librdlnative.so"</span>)?;
+<span class="tok-kw">let mut</span> rpt = lib.report(<span class="tok-str">"/path/to/report.rdl"</span>);
+
+<span class="tok-kw">let</span> rows: Vec&lt;HashMap&lt;String, String&gt;&gt; = <span class="tok-kw">vec</span>![
+    [(<span class="tok-str">"Product"</span>, <span class="tok-str">"PDF Library Pro"</span>), (<span class="tok-str">"Revenue"</span>, <span class="tok-str">"1200.00"</span>), (<span class="tok-str">"Units"</span>, <span class="tok-str">"3"</span>)]
+        .iter().map(|(k, v)| (k.to_string(), v.to_string())).collect(),
+    [(<span class="tok-str">"Product"</span>, <span class="tok-str">"Report Designer"</span>),  (<span class="tok-str">"Revenue"</span>, <span class="tok-str">"250.00"</span>),  (<span class="tok-str">"Units"</span>, <span class="tok-str">"1"</span>)]
+        .iter().map(|(k, v)| (k.to_string(), v.to_string())).collect(),
+];
+
+rpt.add_data(<span class="tok-str">"SalesData"</span>, rows);
+<span class="tok-kw">let</span> pdf = rpt.export_to_memory(<span class="tok-str">"pdf"</span>)?;</pre>
+
+    <div class="docs-note">
+      数据集名称必须与 <code>.rdl</code> 文件中定义的数据集匹配。所有字段值都必须是字符串——在插入映射前请先转换数字、日期和布尔值。可以通过多次调用 <code>add_data</code> 提供多个数据集。
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="memory">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">导出到内存</h2>
+    <p class="docs-p"><code>export_to_memory</code> 调用原生 FFI 函数 <code>rdl_report_render_buffer</code>,该函数填充一个原生分配的缓冲区,并返回指针和长度。Rust 封装层会将字节复制到 <code>Vec&lt;u8&gt;</code> 中,然后调用 <code>rdl_free</code>。整个过程都不会写入临时文件——非常适合用于 HTTP 响应体或流水线集成。</p>
+    <pre><span class="tok-cm">// Axum 处理函数示例</span>
+<span class="tok-kw">async fn</span> report_handler(State(lib): State&lt;RdlLibrary&gt;) -> <span class="tok-kw">impl</span> IntoResponse {
+    <span class="tok-kw">let mut</span> rpt = lib.report(<span class="tok-str">"/reports/sales.rdl"</span>);
+    rpt.set_connection_string(<span class="tok-str">"Data Source=/data/northwindEF.db"</span>);
+
+    <span class="tok-kw">match</span> rpt.export_to_memory(<span class="tok-str">"pdf"</span>) {
+        Ok(bytes) => (
+            StatusCode::OK,
+            [(<span class="tok-str">"content-type"</span>, <span class="tok-str">"application/pdf"</span>)],
+            bytes,
+        ).into_response(),
+        Err(e) => (StatusCode::INTERNAL_SERVER_ERROR, e.to_string()).into_response(),
+    }
+}</pre>
+  </div>
+
+  <hr class="docs-rule" id="errors">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">错误处理</h2>
+    <p class="docs-p">所有可能失败的操作都返回 <code>Result&lt;T, majorsilence_reporting::Error&gt;</code>。<code>Error</code> 实现了 <code>std::error::Error</code>,并封装了原生函数 <code>rdl_last_error()</code> 返回的消息。</p>
+    <pre><span class="tok-kw">match</span> rpt.export_to_memory(<span class="tok-str">"pdf"</span>) {
+    Ok(bytes) => { <span class="tok-cm">/* 使用 bytes */</span> }
+    Err(e)    => eprintln!(<span class="tok-str">"渲染失败:{e}"</span>),
+}
+
+<span class="tok-cm">// 或使用 ? 进行传播</span>
+<span class="tok-kw">let</span> bytes = rpt.export_to_memory(<span class="tok-str">"pdf"</span>)?;</pre>
+    <div class="docs-note">
+      无法识别的格式字符串不会返回错误——会静默回退为 <code>"pdf"</code>。如需在编译期枚举所有有效格式,请使用公共常量 <code>majorsilence_reporting::VALID_FORMATS: &amp;[&amp;str]</code>。
+    </div>
+  </div>
+
+  <hr class="docs-rule" id="formats">
+
+  <div class="docs-section">
+    <h2 class="docs-h2">导出格式</h2>
+    <p class="docs-p">支持全部十种格式。与 Python/PHP/Ruby 的子进程模式不同,Rust 封装层始终使用原生 FFI 路径,因此<em>所有</em>格式均可用。</p>
+    <table class="api-table">
+      <thead><tr><th>格式字符串</th><th>输出</th></tr></thead>
+      <tbody>
+        <tr><td><code>pdf</code></td><td>PDF(同时也是任何无法识别字符串的回退格式)</td></tr>
+        <tr><td><code>csv</code></td><td>逗号分隔值</td></tr>
+        <tr><td><code>xlsx</code></td><td>Excel 工作簿</td></tr>
+        <tr><td><code>xlsx_table</code></td><td>Excel 工作簿(表格样式)</td></tr>
+        <tr><td><code>xml</code></td><td>XML 数据</td></tr>
+        <tr><td><code>rtf</code></td><td>Rich Text Format</td></tr>
+        <tr><td><code>tif</code></td><td>TIFF 图像(彩色)</td></tr>
+        <tr><td><code>tifb</code></td><td>TIFF 图像(黑白)</td></tr>
+        <tr><td><code>html</code></td><td>HTML</td></tr>
+        <tr><td><code>mht</code></td><td>MHTML 网页存档</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>

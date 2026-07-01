@@ -1,15 +1,64 @@
+{% assign lang = page.lang | default: 'en' %}
+{% assign base_path = page.url %}
+{% if lang == 'fr' %}{% assign base_path = page.url | remove_first: '/fr' %}{% endif %}
+{% if lang == 'es' %}{% assign base_path = page.url | remove_first: '/es' %}{% endif %}
+{% if lang == 'zh' %}{% assign base_path = page.url | remove_first: '/zh' %}{% endif %}
+{% if base_path == '' %}{% assign base_path = '/' %}{% endif %}
+
+{% assign is_localized = false %}
+{% if base_path == '/' or base_path contains '/sdks/' %}{% assign is_localized = true %}{% endif %}
+
+{% case lang %}
+  {% when 'fr' %}
+    {% assign home_href = site.baseurl | append: '/fr/' %}
+    {% assign sdks_href = site.baseurl | append: '/fr/sdks/' %}
+    {% assign nav_home = 'accueil' %}
+    {% assign nav_docs = 'documentation' %}
+    {% assign nav_blog = 'blog' %}
+    {% assign nav_sdks = 'sdks' %}
+  {% when 'es' %}
+    {% assign home_href = site.baseurl | append: '/es/' %}
+    {% assign sdks_href = site.baseurl | append: '/es/sdks/' %}
+    {% assign nav_home = 'inicio' %}
+    {% assign nav_docs = 'documentación' %}
+    {% assign nav_blog = 'blog' %}
+    {% assign nav_sdks = 'sdks' %}
+  {% when 'zh' %}
+    {% assign home_href = site.baseurl | append: '/zh/' %}
+    {% assign sdks_href = site.baseurl | append: '/zh/sdks/' %}
+    {% assign nav_home = '首页' %}
+    {% assign nav_docs = '文档' %}
+    {% assign nav_blog = '博客' %}
+    {% assign nav_sdks = 'SDK' %}
+  {% else %}
+    {% assign home_href = site.baseurl | append: '/' %}
+    {% assign sdks_href = site.baseurl | append: '/sdks/' %}
+    {% assign nav_home = 'home' %}
+    {% assign nav_docs = 'docs' %}
+    {% assign nav_blog = 'blog' %}
+    {% assign nav_sdks = 'sdks' %}
+{% endcase %}
+
 <header class="site-header">
   <div class="wrap">
-    <a href="{{ site.baseurl }}/" class="site-brand">
+    <a href="{{ home_href }}" class="site-brand">
       <span class="brand-icon">MR</span>
       Majorsilence Reporting
     </a>
     <nav class="site-nav">
-      <a href="{{ site.baseurl }}/"{% if page.url == '/' %} class="nav-active"{% endif %}>home</a>
-      <a href="https://github.com/majorsilence/Reporting/wiki" target="_blank" rel="noopener">docs</a>
-      <a href="{{ site.baseurl }}/posts/"{% if page.navgroup == 'posts' %} class="nav-active"{% endif %}>blog</a>
-      <a href="{{ site.baseurl }}/sdks/"{% if page.url contains '/sdks/' %} class="nav-active"{% endif %}>sdks</a>
+      <a href="{{ home_href }}"{% if base_path == '/' %} class="nav-active"{% endif %}>{{ nav_home }}</a>
+      <a href="https://github.com/majorsilence/Reporting/wiki" target="_blank" rel="noopener">{{ nav_docs }}</a>
+      <a href="{{ site.baseurl }}/posts/"{% if page.navgroup == 'posts' %} class="nav-active"{% endif %}>{{ nav_blog }}</a>
+      <a href="{{ sdks_href }}"{% if base_path contains '/sdks/' %} class="nav-active"{% endif %}>{{ nav_sdks }}</a>
       <a href="https://github.com/majorsilence/Reporting" target="_blank" rel="noopener" class="nav-cta">github ↗</a>
+      {% if is_localized %}
+      <div class="lang-switcher" aria-label="Language">
+        <a class="lang-btn{% if lang == 'en' %} active{% endif %}" href="{{ site.baseurl }}{{ base_path }}">EN</a>
+        <a class="lang-btn{% if lang == 'fr' %} active{% endif %}" href="{{ site.baseurl }}/fr{{ base_path }}">FR</a>
+        <a class="lang-btn{% if lang == 'es' %} active{% endif %}" href="{{ site.baseurl }}/es{{ base_path }}">ES</a>
+        <a class="lang-btn{% if lang == 'zh' %} active{% endif %}" href="{{ site.baseurl }}/zh{{ base_path }}">中文</a>
+      </div>
+      {% endif %}
       <div class="theme-switcher" aria-label="Theme">
         <button class="theme-btn" data-theme="light" title="Light mode">light</button>
         <button class="theme-btn" data-theme="dark" title="Dark mode">dark</button>

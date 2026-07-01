@@ -1,0 +1,462 @@
+---
+layout: main
+lang: es
+title: Majorsilence Reporting
+---
+
+<!-- ── Hero ─────────────────────────────────────────────────────── -->
+<section class="hero-section fade-up">
+  <div class="wrap">
+    <h1 class="hero-title">Entra C#.<br><span class="accent">Salen informes.</span></h1>
+    <p class="hero-subtitle">Un motor RDL de código abierto para .NET 8 y 10. PDF, Excel, HTML, CSV y más — desde SQL, JSON o C# puro. Apache 2.0, con componentes adicionales de triple licencia.</p>
+    <div class="hero-actions">
+      <a href="/posts/quick-start" class="btn btn-primary">Empezar</a>
+      <a href="{{ site.baseurl }}/posts/" class="btn btn-outline">Guía de inicio rápido</a>
+    </div>
+    <div class="hero-install">$ dotnet add package Majorsilence.Reporting.RdlEngine.SkiaSharp</div>
+  </div>
+</section>
+
+<!-- ── Pipeline ──────────────────────────────────────────────────── -->
+<div class="pipeline-section fade-up delay-2">
+  <div class="pipeline-code">
+    <div class="panel-header">
+      <span>Program.cs</span>
+      <span class="panel-tag">entrada</span>
+    </div>
+    <pre><span class="kw">var</span> parser = <span class="kw">new</span> <span class="tp">RDLParser</span>(rdlXml);
+<span class="kw">using var</span> report = <span class="kw">await</span> parser.Parse();
+<span class="kw">await</span> report.RunGetData(<span class="kw">null</span>);
+<span class="kw">await</span> report.RunRender(ofs,
+  OutputPresentationType.<span class="acc">PDF</span>);</pre>
+  </div>
+
+  <div class="pipeline-arrow">→</div>
+
+  <div class="pipeline-pdf">
+    <div class="panel-header">
+      <span>report.pdf</span>
+      <span class="panel-tag">salida</span>
+    </div>
+    <div class="pdf-body">
+      <div>
+        <div class="pdf-title">Resumen de ventas — T2 2026</div>
+        <div class="pdf-meta">Generado el 2026-06-11 · página 1 de 4</div>
+      </div>
+      <div class="pdf-table-header">
+        <span>Región</span><span style="text-align:right">Unidades</span><span style="text-align:right">Ingresos</span>
+      </div>
+      <div class="pdf-table-body">
+        <div class="pdf-row"><span>Norteamérica</span><span>12.408</span><span>1,24 M$</span></div>
+        <div class="pdf-row"><span>Europa</span><span>9.112</span><span>0,97 M$</span></div>
+        <div class="pdf-row"><span>Asia-Pacífico</span><span>7.654</span><span>0,81 M$</span></div>
+        <div class="pdf-row pdf-total"><span>Total</span><span>29.174</span><span>3,02 M$</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Format chips ───────────────────────────────────────────────── -->
+<div class="format-chips fade-up delay-3">
+  <span class="format-chip active">PDF</span>
+  <span class="format-chip">XLSX</span>
+  <span class="format-chip">HTML</span>
+  <span class="format-chip">CSV</span>
+  <span class="format-chip">XML</span>
+  <span class="format-chip">TIFF</span>
+  <span class="format-chip">MHT</span>
+</div>
+
+<!-- ── Stats ─────────────────────────────────────────────────────── -->
+<div class="stats-section">
+  <div class="stat-item"><div class="stat-value">7+</div><div class="stat-label">Formatos de salida</div></div>
+  <div class="stat-item"><div class="stat-value">10+</div><div class="stat-label">Fuentes de datos</div></div>
+  <div class="stat-item"><div class="stat-value">10</div><div class="stat-label">Tipos de código de barras / QR</div></div>
+  <div class="stat-item"><div class="stat-value accent">.NET 8 y 10</div><div class="stat-label">Multiplataforma</div></div>
+  <div class="stat-item"><div class="stat-value accent">Apache 2.0</div><div class="stat-label">Código abierto</div></div>
+</div>
+
+<!-- ── Features ──────────────────────────────────────────────────── -->
+<section class="features-section">
+  <div class="wrap">
+    <div class="section-label">Funcionalidades</div>
+    <h2 class="section-title">Todo lo que necesitas para informes en .NET</h2>
+    <p class="section-sub">Desde simples facturas en PDF hasta informes complejos de varias páginas con códigos de barras, gráficos y datos dinámicos — todo desde una sola biblioteca.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📄</div>
+        <h3>Exportación multiformato</h3>
+        <p>Genera cualquier informe en PDF, Excel (xlsx), HTML, CSV, RTF y XML a partir de una sola consulta de datos. Una llamada, todos los formatos.</p>
+        <div class="format-list">
+          <span class="format-badge"><span class="dot" style="background:#ef4444"></span>PDF</span>
+          <span class="format-badge"><span class="dot" style="background:#22c55e"></span>XLSX</span>
+          <span class="format-badge"><span class="dot" style="background:#3b82f6"></span>HTML</span>
+          <span class="format-badge"><span class="dot" style="background:#f59e0b"></span>CSV</span>
+          <span class="format-badge"><span class="dot" style="background:#8b5cf6"></span>RTF</span>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🗄️</div>
+        <h3>Fuentes de datos flexibles</h3>
+        <p>Conéctate a SQLite, SQL Server, PostgreSQL, MySQL, Firebird, archivos JSON, XML, o inyecta datos directamente desde objetos C#.</p>
+        <span class="feature-tag">Microsoft.Data.Sqlite · Json · SQL · PostgreSQL</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>Códigos de barras y QR</h3>
+        <p>10 tipos de códigos de barras CRI integrados vía ZXing.Net: QR Code, Code 128, Code 39, Data Matrix, Aztec, PDF417, ITF-14 y más.</p>
+        <span class="feature-tag">Custom Report Items (CRI)</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🖥️</div>
+        <h3>Diseñador visual</h3>
+        <p>Diseñador de informes de arrastrar y soltar en Windows. Diseña archivos RDL visualmente y luego renderízalos en el servidor en cualquier sistema operativo.</p>
+        <span class="feature-tag">Diseñador de Windows · Renderizado multiplataforma</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🌐</div>
+        <h3>Multiplataforma</h3>
+        <p>El renderizado del lado del servidor funciona en Linux, macOS y Windows. Funciona muy bien en contenedores Docker y despliegues en la nube.</p>
+        <span class="feature-tag">Linux · macOS · Windows · Docker</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Formato de informe RDL</h3>
+        <p>Basado en el estándar abierto RDL (Report Definition Language). Los informes son archivos XML — cómodos para el control de versiones y portables.</p>
+        <span class="feature-tag">Estándar abierto · XML · Portable</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Why Switch ─────────────────────────────────────────────────── -->
+<section class="why-section">
+  <div class="wrap">
+    <div class="section-label">Comparativa</div>
+    <h2 class="section-title">La alternativa moderna a las soluciones de informes tradicionales</h2>
+    <p class="section-sub">Crystal Reports requiere .NET Framework y una licencia comercial. SSRS requiere SQL Server y un servidor Windows dedicado. Majorsilence Reporting es un paquete NuGet que funciona en cualquier lugar donde funcione .NET.</p>
+
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="col-us">Majorsilence<br><span class="col-tag">Esta biblioteca</span></th>
+            <th>Crystal Reports</th>
+            <th>SSRS</th>
+            <th>FastReport /<br>DevExpress</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Licencia</td>
+            <td class="col-us"><span class="check">✓</span> Núcleo Apache 2.0, componentes de triple licencia MIT/BSD — gratis</td>
+            <td>Comercial, por puesto</td>
+            <td>Requiere licencia de SQL Server</td>
+            <td>Comercial, por puesto</td>
+          </tr>
+          <tr>
+            <td class="row-label">.NET 8 / 10</td>
+            <td class="col-us"><span class="check">✓</span> Soporte completo</td>
+            <td><span class="cross">✗</span> Solo .NET Framework</td>
+            <td>Solo renderizado (parcial)</td>
+            <td><span class="check">✓</span> Compatible</td>
+          </tr>
+          <tr>
+            <td class="row-label">Linux / Docker</td>
+            <td class="col-us"><span class="check">✓</span> Multiplataforma</td>
+            <td><span class="cross">✗</span> Solo Windows</td>
+            <td><span class="cross">✗</span> Solo Windows Server</td>
+            <td>Varía según el producto</td>
+          </tr>
+          <tr>
+            <td class="row-label">Despliegue</td>
+            <td class="col-us"><span class="check">✓</span> Paquete NuGet</td>
+            <td>Runtime redistribuible</td>
+            <td>Servidor de informes dedicado</td>
+            <td>Paquete NuGet</td>
+          </tr>
+          <tr>
+            <td class="row-label">Formato de informe</td>
+            <td class="col-us"><span class="check">✓</span> RDL abierto (XML)</td>
+            <td>Binario .rpt (propietario)</td>
+            <td><span class="check">✓</span> RDL abierto (XML)</td>
+            <td>Propietario</td>
+          </tr>
+          <tr>
+            <td class="row-label">Formatos de salida</td>
+            <td class="col-us">PDF, XLSX, HTML, CSV, RTF, XML, TIFF, MHT</td>
+            <td>PDF, Excel, Word, HTML</td>
+            <td>PDF, Excel, Word, HTML, CSV</td>
+            <td>PDF, Excel, Word, HTML</td>
+          </tr>
+          <tr>
+            <td class="row-label">Inyectar objetos C#</td>
+            <td class="col-us"><span class="check">✓</span> <code>SetData()</code></td>
+            <td>Limitado</td>
+            <td>Limitado</td>
+            <td>Varía</td>
+          </tr>
+          <tr>
+            <td class="row-label">Portal de informes integrado</td>
+            <td class="col-us">Constrúyelo tú mismo</td>
+            <td>Crystal Reports Server (coste adicional)</td>
+            <td><span class="check">✓</span> Incluido</td>
+            <td>Algunos productos incluyen uno</td>
+          </tr>
+          <tr>
+            <td class="row-label">Código abierto</td>
+            <td class="col-us"><span class="check">✓</span> GitHub</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="migration-callout">
+      <div class="migration-icon">🔄</div>
+      <div class="migration-body">
+        <h4>¿Migrando desde Crystal Reports o SSRS?</h4>
+        <p>Los informes de SSRS usan el mismo formato RDL abierto — muchos se renderizarán con Majorsilence Reporting sin modificaciones. Los archivos <code>.rpt</code> de Crystal Reports necesitan conversión, pero los informes tabulares sencillos se migran sin problemas.</p>
+        <a href="/posts/2026/06/20/replacing-crystal-reports-ssrs.html" class="btn btn-outline" style="margin-top:0.75rem;display:inline-block">Leer la guía de migración →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Install ────────────────────────────────────────────────────── -->
+<section class="install-section">
+  <div class="wrap">
+    <div class="install-box">
+      <div class="install-copy">
+        <h3>Añádelo a tu proyecto</h3>
+        <p>Disponible en NuGet. Añade el motor y, opcionalmente, el paquete CRI para soporte de códigos de barras.</p>
+      </div>
+      <div class="install-commands">
+        <div class="install-cmd">
+          <span class="prompt">$</span>
+          <span>dotnet add package <span class="pkg">Majorsilence.Reporting.RdlEngine.SkiaSharp</span></span>
+        </div>
+        <div class="install-cmd">
+          <span class="prompt">$</span>
+          <span>dotnet add package <span class="pkg">Majorsilence.Reporting.RdlCri.SkiaSharp</span></span>
+        </div>
+        <div class="install-cmd">
+          <span class="prompt">$</span>
+          <span>dotnet add package <span class="pkg">Majorsilence.Reporting.RdlCreator.SkiaSharp</span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Getting Started ────────────────────────────────────────────── -->
+<section class="getstarted-section">
+  <div class="wrap">
+    <div class="section-label">Primeros pasos</div>
+    <h2 class="section-title">Listo y funcionando en minutos</h2>
+    <p class="section-sub">Llama a <code>RdlEngineConfigInit()</code> una vez al iniciar, carga un archivo RDL y renderiza en cualquier formato.</p>
+
+    <div class="tab-container">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="sqlite">Informe SQLite</button>
+        <button class="tab-btn" data-tab="multiformat">Multiformato</button>
+        <button class="tab-btn" data-tab="json">Datos JSON</button>
+        <button class="tab-btn" data-tab="barcode">Códigos de barras</button>
+        <button class="tab-btn" data-tab="setdata">Inyectar datos</button>
+      </div>
+
+      <div class="tab-pane active" data-tab="sqlite">
+        <div class="code-block">
+          <div class="code-header">
+            <span>Renderizar un informe basado en SQLite a PDF</span>
+            <span style="color:var(--accent)">C#</span>
+          </div>
+          <pre><span class="kw">using</span> Majorsilence.Reporting.Rdl;
+
+<span class="cm">// Llamar una vez por instancia de la aplicación</span>
+RdlEngineConfig.<span class="fn">RdlEngineConfigInit</span>();
+
+<span class="kw">var</span> baseDir = AppContext.BaseDirectory;
+<span class="kw">var</span> dbPath  = Path.<span class="fn">Combine</span>(baseDir, <span class="str">"mydata.db"</span>);
+<span class="kw">var</span> outPath = Path.<span class="fn">Combine</span>(baseDir, <span class="str">"report.pdf"</span>);
+
+<span class="kw">var</span> rdlXml = (<span class="kw">await</span> File.<span class="fn">ReadAllTextAsync</span>(<span class="str">"Report.rdl"</span>))
+    .<span class="fn">Replace</span>(<span class="str">"mydata.db"</span>, dbPath);
+
+<span class="kw">var</span> parser = <span class="kw">new</span> <span class="tp">RDLParser</span>(rdlXml) { Folder = baseDir };
+<span class="kw">using var</span> report = <span class="kw">await</span> parser.<span class="fn">Parse</span>();
+
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw">null</span>);
+<span class="kw">var</span> ofs = <span class="kw">new</span> <span class="tp">OneFileStreamGen</span>(outPath, <span class="kw">true</span>);
+<span class="kw">await</span> report.<span class="fn">RunRender</span>(ofs, OutputPresentationType.PDF);</pre>
+        </div>
+      </div>
+
+      <div class="tab-pane" data-tab="multiformat">
+        <div class="code-block">
+          <div class="code-header">
+            <span>Exportar a PDF, Excel, CSV y HTML en una sola pasada</span>
+            <span style="color:var(--accent)">C#</span>
+          </div>
+          <pre><span class="cm">// RunGetData una vez, y luego RunRender para cada formato.</span>
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw">null</span>);
+
+<span class="kw">foreach</span> (<span class="kw">var</span> (filename, format) <span class="kw">in</span> <span class="kw">new</span>[] {
+    (<span class="str">"report.pdf"</span>,  OutputPresentationType.PDF),
+    (<span class="str">"report.xlsx"</span>, OutputPresentationType.Excel2007),
+    (<span class="str">"report.csv"</span>,  OutputPresentationType.CSV),
+    (<span class="str">"report.html"</span>, OutputPresentationType.HTML),
+}) {
+    <span class="kw">var</span> ofs = <span class="kw">new</span> <span class="tp">OneFileStreamGen</span>(filename, <span class="kw">true</span>);
+    <span class="kw">await</span> report.<span class="fn">RunRender</span>(ofs, format);
+}</pre>
+        </div>
+      </div>
+
+      <div class="tab-pane" data-tab="json">
+        <div class="code-block">
+          <div class="code-header">
+            <span>Leer datos desde un archivo JSON local</span>
+            <span style="color:var(--accent)">RDL + C#</span>
+          </div>
+          <pre><span class="cm">/* En el DataSource del RDL */</span>
+&lt;ConnectionProperties&gt;
+  &lt;DataProvider&gt;<span class="str">Json</span>&lt;/DataProvider&gt;
+  &lt;ConnectString&gt;<span class="str">file=employees.json</span>&lt;/ConnectString&gt;
+&lt;/ConnectionProperties&gt;
+
+<span class="kw">var</span> rdlXml = (<span class="kw">await</span> File.<span class="fn">ReadAllTextAsync</span>(<span class="str">"Employees.rdl"</span>))
+    .<span class="fn">Replace</span>(<span class="str">"employees.json"</span>, Path.<span class="fn">Combine</span>(baseDir, <span class="str">"employees.json"</span>));
+
+<span class="kw">var</span> parser = <span class="kw">new</span> <span class="tp">RDLParser</span>(rdlXml) { Folder = baseDir };
+<span class="kw">using var</span> report = <span class="kw">await</span> parser.<span class="fn">Parse</span>();
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw">null</span>);
+<span class="kw">await</span> report.<span class="fn">RunRender</span>(<span class="kw">new</span> <span class="tp">OneFileStreamGen</span>(<span class="str">"out.pdf"</span>, <span class="kw">true</span>), OutputPresentationType.PDF);</pre>
+        </div>
+      </div>
+
+      <div class="tab-pane" data-tab="barcode">
+        <div class="code-block">
+          <div class="code-header">
+            <span>Añadir un código QR o de barras a un informe (CRI)</span>
+            <span style="color:var(--accent)">RDL + C#</span>
+          </div>
+          <pre><span class="cm">/* QrCode · BarCode128 · BarCode39 · DataMatrix · AztecCode · Pdf417 · ITF-14 */</span>
+&lt;CustomReportItem Name=<span class="str">"ProductQR"</span>&gt;
+  &lt;Type&gt;<span class="str">QrCode</span>&lt;/Type&gt;
+  &lt;CustomProperties&gt;
+    &lt;CustomProperty&gt;
+      &lt;Name&gt;<span class="str">Code</span>&lt;/Name&gt;
+      &lt;Value&gt;<span class="str">=Fields!ProductName.Value</span>&lt;/Value&gt;
+    &lt;/CustomProperty&gt;
+  &lt;/CustomProperties&gt;
+&lt;/CustomReportItem&gt;
+
+<span class="kw">var</span> parameters = <span class="kw">new</span> Dictionary&lt;<span class="kw">string</span>, <span class="kw">string</span>&gt;
+    { [<span class="str">"BarcodeType"</span>] = <span class="str">"DataMatrix"</span> };
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(parameters);</pre>
+        </div>
+      </div>
+
+      <div class="tab-pane" data-tab="setdata">
+        <div class="code-block">
+          <div class="code-header">
+            <span>Inyectar datos desde objetos C# en lugar de una consulta en vivo</span>
+            <span style="color:var(--accent)">C#</span>
+          </div>
+          <pre><span class="kw">record</span> <span class="tp">SaleRecord</span>(<span class="kw">string</span> Product, <span class="kw">string</span> Region, <span class="kw">decimal</span> Amount, <span class="kw">int</span> Quantity);
+
+<span class="kw">var</span> salesData = <span class="kw">new</span> List&lt;<span class="tp">SaleRecord</span>&gt;
+{
+    <span class="kw">new</span>(<span class="str">"Widget A"</span>, <span class="str">"North"</span>, <span class="num">1250.00m</span>, <span class="num">50</span>),
+    <span class="kw">new</span>(<span class="str">"Widget B"</span>, <span class="str">"South"</span>, <span class="num">840.50m</span>,  <span class="num">33</span>),
+};
+
+<span class="kw">await</span> report.DataSets[<span class="str">"Data"</span>].<span class="fn">SetData</span>(salesData);
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw">null</span>);
+<span class="kw">await</span> report.<span class="fn">RunRender</span>(ofs, OutputPresentationType.PDF);</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Docs ────────────────────────────────────────────────────────── -->
+<section class="docs-section">
+  <div class="wrap">
+    <div class="section-label">Documentación</div>
+    <h2 class="section-title">Wiki y guías</h2>
+    <p class="section-sub">El wiki de GitHub cubre cada tema en profundidad — desde la instalación y la migración hasta la configuración avanzada de proveedores de datos.</p>
+
+    <div class="docs-grid">
+      <a href="https://github.com/majorsilence/Reporting/wiki" target="_blank" rel="noopener" class="doc-card">
+        <div class="doc-card-icon">📚</div>
+        <div class="doc-card-body">
+          <h4>Página principal del wiki</h4>
+          <p>Índice completo de todas las páginas de documentación.</p>
+          <span class="arrow">→ github.com/majorsilence/Reporting/wiki</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/majorsilence/Reporting/wiki/Migration-to-v5" target="_blank" rel="noopener" class="doc-card">
+        <div class="doc-card-icon">🚀</div>
+        <div class="doc-card-body">
+          <h4>Migración a v5</h4>
+          <p>Cambios importantes, actualizaciones de espacios de nombres y guía de migración a la API asíncrona desde versiones anteriores.</p>
+          <span class="arrow">→ Migration-to-v5</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/majorsilence/Reporting/wiki/Json-Data-Provider" target="_blank" rel="noopener" class="doc-card">
+        <div class="doc-card-icon">🗂️</div>
+        <div class="doc-card-body">
+          <h4>Proveedor de datos JSON</h4>
+          <p>Conecta informes a archivos JSON locales. Los objetos anidados son accesibles mediante notación con guion bajo.</p>
+          <span class="arrow">→ Json-Data-Provider</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/majorsilence/Reporting/wiki/Set-Connection-String---Runtime" target="_blank" rel="noopener" class="doc-card">
+        <div class="doc-card-icon">🔌</div>
+        <div class="doc-card-body">
+          <h4>Cadenas de conexión dinámicas</h4>
+          <p>Sustituye la cadena de conexión en tiempo de ejecución sin modificar el archivo RDL.</p>
+          <span class="arrow">→ Set-Connection-String---Runtime</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/majorsilence/Reporting/wiki/Web-Designer" target="_blank" rel="noopener" class="doc-card">
+        <div class="doc-card-icon">🎨</div>
+        <div class="doc-card-body">
+          <h4>Diseñador web</h4>
+          <p>Integra el diseñador de informes en una aplicación web para que los usuarios creen informes desde el navegador.</p>
+          <span class="arrow">→ Web-Designer</span>
+        </div>
+      </a>
+
+      <a href="https://github.com/majorsilence/Reporting/wiki/Contribute" target="_blank" rel="noopener" class="doc-card">
+        <div class="doc-card-icon">🤝</div>
+        <div class="doc-card-body">
+          <h4>Contribuir</h4>
+          <p>Cómo hacer fork, compilar, ejecutar las pruebas y enviar pull requests al proyecto.</p>
+          <span class="arrow">→ Contribute</span>
+        </div>
+      </a>
+    </div>
+
+    <div style="margin-top:1.5rem">
+      <a href="https://github.com/majorsilence/Reporting/wiki/_pages" target="_blank" rel="noopener" class="btn btn-outline">
+        Ver todas las páginas del wiki →
+      </a>
+    </div>
+  </div>
+</section>

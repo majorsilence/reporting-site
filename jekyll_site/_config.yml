@@ -24,8 +24,10 @@ kramdown:
   syntax_highlighter: rouge
 
 ## The application virtual path
-baseurl: 
+baseurl:
+url: "https://reporting.majorsilence.com"
 siteversion: 2026.06.10
 title: Majorsilence Reporting
+description: "An open-source RDL engine for .NET 8 & 10. Render PDF, Excel, HTML, CSV and more from SQL, JSON, or pure C#."
 
 plugins: [jekyll-paginate, jekyll-redirect-from, jekyll-sitemap]
