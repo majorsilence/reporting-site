@@ -25,7 +25,7 @@ title: Majorsilence Reporting
     </div>
     <pre><span class="kw">var</span> parser = <span class="kw">new</span> <span class="tp">RDLParser</span>(rdlXml);
 <span class="kw">using var</span> report = <span class="kw">await</span> parser.Parse();
-<span class="kw">await</span> report.RunGetData(<span class="kw">null</span>);
+<span class="kw">await</span> report.RunGetData(<span class="kw"></span>);
 <span class="kw">await</span> report.RunRender(ofs,
   OutputPresentationType.<span class="acc">PDF</span>);</pre>
   </div>
@@ -294,7 +294,7 @@ RdlEngineConfig.<span class="fn">RdlEngineConfigInit</span>();
 <span class="kw">var</span> parser = <span class="kw">new</span> <span class="tp">RDLParser</span>(rdlXml) { Folder = baseDir };
 <span class="kw">using var</span> report = <span class="kw">await</span> parser.<span class="fn">Parse</span>();
 
-<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw">null</span>);
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw"></span>);
 <span class="kw">var</span> ofs = <span class="kw">new</span> <span class="tp">OneFileStreamGen</span>(outPath, <span class="kw">true</span>);
 <span class="kw">await</span> report.<span class="fn">RunRender</span>(ofs, OutputPresentationType.PDF);</pre>
         </div>
@@ -307,7 +307,7 @@ RdlEngineConfig.<span class="fn">RdlEngineConfigInit</span>();
             <span style="color:var(--accent)">C#</span>
           </div>
           <pre><span class="cm">// RunGetData once, then RunRender for each format.</span>
-<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw">null</span>);
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw"></span>);
 
 <span class="kw">foreach</span> (<span class="kw">var</span> (filename, format) <span class="kw">in</span> <span class="kw">new</span>[] {
     (<span class="str">"report.pdf"</span>,  OutputPresentationType.PDF),
@@ -338,7 +338,7 @@ RdlEngineConfig.<span class="fn">RdlEngineConfigInit</span>();
 
 <span class="kw">var</span> parser = <span class="kw">new</span> <span class="tp">RDLParser</span>(rdlXml) { Folder = baseDir };
 <span class="kw">using var</span> report = <span class="kw">await</span> parser.<span class="fn">Parse</span>();
-<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw">null</span>);
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw"></span>);
 <span class="kw">await</span> report.<span class="fn">RunRender</span>(<span class="kw">new</span> <span class="tp">OneFileStreamGen</span>(<span class="str">"out.pdf"</span>, <span class="kw">true</span>), OutputPresentationType.PDF);</pre>
         </div>
       </div>
@@ -381,7 +381,7 @@ RdlEngineConfig.<span class="fn">RdlEngineConfigInit</span>();
 };
 
 <span class="kw">await</span> report.DataSets[<span class="str">"Data"</span>].<span class="fn">SetData</span>(salesData);
-<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw">null</span>);
+<span class="kw">await</span> report.<span class="fn">RunGetData</span>(<span class="kw"></span>);
 <span class="kw">await</span> report.<span class="fn">RunRender</span>(ofs, OutputPresentationType.PDF);</pre>
         </div>
       </div>
