@@ -1,0 +1,63 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ site.url }}/#organization",
+      "name": "Majorsilence Reporting",
+      "url": "{{ site.url }}/",
+      "logo": "{{ site.url }}{{ site.baseurl }}/assets/images/og-image.png",
+      "sameAs": [
+        "https://github.com/majorsilence/Reporting",
+        "https://www.nuget.org/packages/Majorsilence.Reporting.RdlEngine"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ site.url }}/#website",
+      "url": "{{ site.url }}/",
+      "name": "{{ site.title }}",
+      "description": "{{ site.description }}",
+      "publisher": { "@id": "{{ site.url }}/#organization" },
+      "inLanguage": ["en", "fr", "es", "zh-Hans"]
+    }
+    {% if page.url == '/' %}
+    ,{
+      "@type": "SoftwareApplication",
+      "name": "Majorsilence Reporting",
+      "operatingSystem": "Linux, macOS, Windows",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "Reporting Engine",
+      "softwareVersion": "{{ site.siteversion }}",
+      "description": "{{ site.description }}",
+      "url": "{{ site.url }}/",
+      "downloadUrl": "https://www.nuget.org/packages/Majorsilence.Reporting.RdlEngine",
+      "codeRepository": "https://github.com/majorsilence/Reporting",
+      "programmingLanguage": "C#",
+      "license": "https://github.com/majorsilence/Reporting/blob/main/LICENSE",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "publisher": { "@id": "{{ site.url }}/#organization" }
+    }
+    {% endif %}
+    {% if page.layout == 'post' %}
+    ,{
+      "@type": "BlogPosting",
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ site.url }}{{ page.url }}" },
+      "headline": {{ page.title | jsonify }},
+      "description": {{ page.description | default: site.description | jsonify }},
+      "datePublished": "{{ page.date | date_to_xmlschema }}",
+      "dateModified": "{{ page.last_modified | default: page.date | date_to_xmlschema }}",
+      "author": { "@id": "{{ site.url }}/#organization" },
+      "publisher": { "@id": "{{ site.url }}/#organization" },
+      "url": "{{ site.url }}{{ page.url }}",
+      "inLanguage": "{{ page.lang | default: 'en' }}"
+    }
+    {% endif %}
+  ]
+}
+</script>

@@ -3,6 +3,7 @@ layout: post
 title: "Native AOT and Trimming Support"
 date: 2026-06-21
 last_modified: 2026-06-21
+description: "How to publish Majorsilence Reporting with .NET Native AOT and trimming, including the one-time registration step reflection-based features need."
 comments: true
 enable_syntax_highlighting: true
 ---

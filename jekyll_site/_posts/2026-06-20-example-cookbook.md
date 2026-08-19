@@ -3,6 +3,7 @@ layout: post
 title: "Reporting Examples Cookbook: Eight Real-World Patterns"
 date: 2026-06-20
 last_modified: 2026-06-20
+description: "Eight real-world report patterns from the examples that ship with Majorsilence Reporting, with the actual example code for each."
 comments: true
 enable_syntax_highlighting: true
 ---

@@ -24,8 +24,10 @@
 {% if page.image %}
   <meta content="{{ site.url }}/images/srcset/{{ page.image }}" property="og:image">
 {% else %}
-  <meta content="{{ site.url }}/images/profile.webp" property="og:image">
+  <meta content="{{ site.url }}{{ site.baseurl }}/assets/images/og-image.png" property="og:image">
 {% endif %}
+<meta content="1200" property="og:image:width">
+<meta content="630" property="og:image:height">
 {% if page.categories %}
   {% for category in page.categories limit:1 %}
   <meta content="{{ category }}" property="article:section">
@@ -36,3 +38,7 @@
   <meta content="{{ tag }}" property="article:tag">
   {% endfor %}
 {% endif %}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}">
+<meta name="twitter:description" content="{{ page.description | default: site.description }}">
+<meta name="twitter:image" content="{% if page.image %}{{ site.url }}/images/srcset/{{ page.image }}{% else %}{{ site.url }}{{ site.baseurl }}/assets/images/og-image.png{% endif %}">

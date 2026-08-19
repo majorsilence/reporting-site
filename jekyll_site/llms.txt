@@ -1,0 +1,30 @@
+# Majorsilence Reporting
+
+> Open-source RDL (Report Definition Language) engine for .NET 8 & 10. Renders PDF, Excel (XLSX), HTML, CSV, RTF, XML, TIFF, and MHT from SQL, JSON, or plain C# objects. Apache 2.0 licensed, cross-platform (Linux, macOS, Windows), distributed as NuGet packages. An open alternative to Crystal Reports and SQL Server Reporting Services (SSRS).
+
+Majorsilence Reporting parses standard RDL XML report definitions and renders them server-side without requiring .NET Framework, a Windows server, or a commercial license. Reports can pull data from SQLite, SQL Server, PostgreSQL, MySQL, Firebird, JSON, XML, or data injected directly from C# objects via `SetData()`.
+
+## Core packages
+
+- [Majorsilence.Reporting.RdlEngine.SkiaSharp](https://www.nuget.org/packages/Majorsilence.Reporting.RdlEngine.SkiaSharp): core parsing and rendering engine (required)
+- [Majorsilence.Reporting.RdlCri.SkiaSharp](https://www.nuget.org/packages/Majorsilence.Reporting.RdlCri.SkiaSharp): barcode/QR code custom report items (ZXing.Net)
+- [Majorsilence.Reporting.RdlCreator.SkiaSharp](https://www.nuget.org/packages/Majorsilence.Reporting.RdlCreator.SkiaSharp): programmatic report/document creation
+
+## Docs
+
+- [Quick Start Guide](https://reporting.majorsilence.com/posts/2025/12/28/quick-start.html): installation, key concepts (RdlEngineConfigInit, RunGetData/RunRender), first PDF render
+- [Replacing Crystal Reports and SSRS](https://reporting.majorsilence.com/posts/2026/06/20/replacing-crystal-reports-ssrs.html): migration guide from legacy reporting tools
+- [Adding Charts to Your Reports](https://reporting.majorsilence.com/posts/2026/06/13/charts.html)
+- [Reporting Examples Cookbook](https://reporting.majorsilence.com/posts/2026/06/20/example-cookbook.html): eight real-world report patterns
+- [Native AOT and Trimming Support](https://reporting.majorsilence.com/posts/2026/06/21/aot-compatibility.html)
+- [SDKs](https://reporting.majorsilence.com/sdks/): Python, PHP, Ruby, and Rust clients
+- [GitHub Wiki](https://github.com/majorsilence/Reporting/wiki): full documentation, migration guides, data provider configuration
+
+## Source
+
+- [GitHub repository](https://github.com/majorsilence/Reporting): source code, issue tracker, contribution guide
+- License: [Apache 2.0](https://github.com/majorsilence/Reporting/blob/main/LICENSE)
+
+## Optional
+
+- [Blog index](https://reporting.majorsilence.com/posts/): all posts

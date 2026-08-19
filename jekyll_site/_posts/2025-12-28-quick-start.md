@@ -2,7 +2,8 @@
 layout: post
 title: Quick Start Guide
 date: 2025-12-28
-last_modified: 2026-06-011
+last_modified: 2026-06-11
+description: "Install Majorsilence Reporting's NuGet packages and render your first PDF from a SQLite-backed RDL report in minutes."
 comments: true
 enable_syntax_highlighting: true
 ---

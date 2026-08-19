@@ -3,6 +3,7 @@ layout: post
 title: "Replacing Crystal Reports and SSRS with Majorsilence Reporting"
 date: 2026-06-20
 last_modified: 2026-06-20
+description: "A migration guide from Crystal Reports and SSRS to Majorsilence Reporting, an open, cross-platform .NET alternative."
 comments: true
 enable_syntax_highlighting: true
 ---
