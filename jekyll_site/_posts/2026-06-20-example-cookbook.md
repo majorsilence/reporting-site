@@ -20,7 +20,7 @@ The variation is in how data gets in and how many formats come out.
 
 ---
 
-## 1. SQLite to PDF — the minimal case
+## 1. SQLite to PDF: the minimal case
 
 **Example project:** `ExportSqliteToPdf`
 
@@ -60,14 +60,14 @@ await report.RunRender(ofs, OutputPresentationType.PDF);
 
 **Key points:**
 
-- `RdlEngineConfigInit()` loads data provider registrations from `RdlEngineConfig.xml`. Call it once at application startup — before any `RDLParser` is constructed.
+- `RdlEngineConfigInit()` loads data provider registrations from `RdlEngineConfig.xml`. Call it once at application startup, before any `RDLParser` is constructed.
 - The string-replace pattern for the database path is intentional. `RDLParser.Parse()` opens the database to validate the query schema, so it needs an absolute, resolvable path. The RDL file stores a short placeholder (just the filename); the application swaps it for the full path at runtime.
 - `ErrorMaxSeverity > 4` checks for errors that prevent rendering. Values 1–4 are warnings; 5+ are fatal.
-- `RunGetData()` executes the SQL. `RunRender()` uses the in-memory result set — no second database hit.
+- `RunGetData()` executes the SQL. `RunRender()` uses the in-memory result set, so there's no second database hit.
 
 ---
 
-## 2. Parameterised Reports — filtering by value
+## 2. Parameterised Reports: filtering by value
 
 **Example project:** `SqliteWithParameters`
 
@@ -186,7 +186,7 @@ foreach (var (filename, format) in formats)
 
 **Example project:** `SetDataFromCode`
 
-Skip the SQL query at runtime entirely. Pass any `IEnumerable<T>` — from an API call, a LINQ query, a microservice response — directly into the report as if it were query results.
+Skip the SQL query at runtime entirely. Pass any `IEnumerable<T>` (from an API call, a LINQ query, a microservice response) directly into the report as if it were query results.
 
 ```csharp
 using Majorsilence.Reporting.Rdl;
@@ -238,7 +238,7 @@ record SaleRecord(string Product, string Region, decimal Amount, int Quantity);
 **When to use this pattern:**
 
 - Your application already fetches the data (e.g. from an HTTP API or a domain service) and you do not want a second database round-trip.
-- You are writing unit tests for report output — no live database needed.
+- You are writing unit tests for report output; no live database needed.
 - The data comes from a source the RDL engine cannot query directly (a gRPC service, a message bus, an in-process computation).
 - You need to transform or enrich data before rendering (join multiple sources, apply business logic, aggregate differently than SQL allows).
 
@@ -308,7 +308,7 @@ The RDL data source declaration looks like this:
 </DataSet>
 ```
 
-**Nested object access:** a JSON property `contact.email` is referenced in the RDL as `Contact_Email` — dots become underscores. Arrays of objects map to report rows naturally.
+**Nested object access:** a JSON property `contact.email` is referenced in the RDL as `Contact_Email`; dots become underscores. Arrays of objects map to report rows naturally.
 
 ---
 
@@ -316,7 +316,7 @@ The RDL data source declaration looks like this:
 
 **Example project:** `ProductQrCodes`
 
-Every row in the table gets its own QR code, generated from data fields at render time. The technique works for any barcode type and any content — product IDs, URLs, tracking codes, invoice numbers.
+Every row in the table gets its own QR code, generated from data fields at render time. The technique works for any barcode type and any content: product IDs, URLs, tracking codes, invoice numbers.
 
 ```csharp
 using Majorsilence.Reporting.Rdl;
@@ -371,7 +371,7 @@ The expression combines `ProductID` and `ProductName` into a single scannable st
 
 **Example project:** `BarcodeShowcase`
 
-Renders all six supported CRI barcode types to a single PDF — useful as a visual reference when deciding which format to use.
+Renders all six supported CRI barcode types to a single PDF, useful as a visual reference when deciding which format to use.
 
 ```csharp
 using Majorsilence.Reporting.Rdl;
@@ -499,11 +499,11 @@ The RDL uses parameter expressions for both the format and the value:
 
 ---
 
-## 9. AOT — Replace `<Code>` VB with C# Delegates
+## 9. AOT: Replace `<Code>` VB with C# Delegates
 
 **Example project:** `AotCodeProvider`
 
-When publishing with `<PublishAot>true</PublishAot>`, the VB compiler (`VBCodeProvider`) is unavailable. `RegisterCodeProvider` lets you supply a C# delegate dictionary that the engine calls in its place. The RDL `<Code>` element can still contain VB source — it is used on standard JIT runtimes and ignored when a provider is registered.
+When publishing with `<PublishAot>true</PublishAot>`, the VB compiler (`VBCodeProvider`) is unavailable. `RegisterCodeProvider` lets you supply a C# delegate dictionary that the engine calls in its place. The RDL `<Code>` element can still contain VB source. It's used on standard JIT runtimes and ignored when a provider is registered.
 
 ```csharp
 using Majorsilence.Reporting.Rdl;
@@ -533,7 +533,7 @@ RdlEngineConfig.RdlEngineConfigInit();
 // ... Parse, SetData, RunGetData, RunRender as normal
 ```
 
-The RDL expressions are unchanged — `=Code.Grade(Fields!Score.Value)`, `=Code.IsPassing(...)`, etc. Method names are matched case-insensitively against the registered delegate names.
+The RDL expressions are unchanged: `=Code.Grade(Fields!Score.Value)`, `=Code.IsPassing(...)`, etc. Method names are matched case-insensitively against the registered delegate names.
 
 The `<Code>` element in the RDL can document the VB equivalents (for non-AOT use) while the registration takes effect on AOT runtimes:
 
@@ -549,11 +549,11 @@ End Function
 
 ---
 
-## 10. AOT — Static Helper Methods via `RegisterType`
+## 10. AOT: Static Helper Methods via `RegisterType`
 
 **Example project:** `AotStaticHelpers`
 
-When expressions call static methods on a class in your assembly — `=MyNamespace.MyClass.Method(args)` — the trimmer may remove those methods from the published binary. `RegisterType` tells the trimmer the class's public methods and constructors must be preserved.
+When expressions call static methods on a class in your assembly, using the fully-qualified form `=MyNamespace.MyClass.Method(args)`, the trimmer may remove those methods from the published binary. `RegisterType` tells the trimmer the class's public methods and constructors must be preserved.
 
 ```csharp
 using Majorsilence.Reporting.Rdl;
@@ -602,7 +602,7 @@ The RDL uses the fully-qualified class name directly in expressions. No `<CodeMo
 
 ---
 
-## 11. AOT — Instance Helper Class via `RegisterInstanceFactory`
+## 11. AOT: Instance Helper Class via `RegisterInstanceFactory`
 
 **Example project:** `AotInstanceHelpers`
 
@@ -662,13 +662,13 @@ Report expressions then call methods via the instance name (`Helper`), not the c
 <BackgroundColor>=Helper.StatusColor(Fields!Status.Value)</BackgroundColor>
 ```
 
-No `<CodeModules>` element is required — the registration bypasses assembly scanning entirely.
+No `<CodeModules>` element is required; the registration bypasses assembly scanning entirely.
 
 ---
 
 ## Beyond RDL: The Low-Level PDF Canvas
 
-The `MajorsilencePdfExample` project shows a second, lower-level library: `Majorsilence.Pdf`. This is a canvas-level PDF writer — you position text, draw shapes, and embed images explicitly, with no RDL or report definition involved.
+The `MajorsilencePdfExample` project shows a second, lower-level library: `Majorsilence.Pdf`. This is a canvas-level PDF writer: you position text, draw shapes, and embed images explicitly, with no RDL or report definition involved.
 
 ```csharp
 using Majorsilence.Pdf;

@@ -8,7 +8,7 @@ comments: true
 enable_syntax_highlighting: true
 ---
 
-Majorsilence Reporting can be published with .NET's Native AOT compiler (`<PublishAot>true</PublishAot>`) and the Trim Analyzer (`<PublishTrimmed>true</PublishTrimmed>`). Most of the engine is already AOT-compatible. The features that rely on runtime code generation — the `<Code>` element's inline VB source, CodeModule assembly loading, and `<Classes>` instance creation — require a one-time registration call at application startup to replace the reflection-based path with pre-compiled C# code.
+Majorsilence Reporting can be published with .NET's Native AOT compiler (`<PublishAot>true</PublishAot>`) and the Trim Analyzer (`<PublishTrimmed>true</PublishTrimmed>`). Most of the engine is already AOT-compatible. The features that rely on runtime code generation (the `<Code>` element's inline VB source, CodeModule assembly loading, and `<Classes>` instance creation) require a one-time registration call at application startup to replace the reflection-based path with pre-compiled C# code.
 
 This page explains the four registration APIs, when to use each one, and shows a runnable example for each pattern.
 
@@ -55,7 +55,7 @@ RdlEngineConfig.RdlEngineConfigInit();
 
 ---
 
-## API 1 — `RegisterCodeProvider` — replace inline VB with C# delegates
+## API 1: `RegisterCodeProvider`, replace inline VB with C# delegates
 
 **Use when:** your RDL has a `<Code>` element with inline VB source, and expressions like `=Code.FormatValue(Fields!X.Value)` call into it.
 
@@ -113,11 +113,11 @@ The expression syntax in the report body is unchanged:
 })
 ```
 
-**Full example:** `Examples/AotCodeProvider` — generates a student score-card PDF using `Code.Grade`, `Code.Commentary`, and `Code.IsPassing`.
+**Full example:** `Examples/AotCodeProvider` generates a student score-card PDF using `Code.Grade`, `Code.Commentary`, and `Code.IsPassing`.
 
 ---
 
-## API 2 — `RegisterType` — preserve static helper class methods
+## API 2: `RegisterType`, preserve static helper class methods
 
 **Use when:** your RDL expressions call static methods on a class in your assembly, using the fully-qualified form `=MyNamespace.MyClass.Method(args)`.
 
@@ -129,7 +129,7 @@ RdlEngineConfig.RegisterType(
     typeof(SalesHelpers));            // the [DynamicallyAccessedMembers] annotation pins the methods
 ```
 
-The registration key must match exactly how the class is referenced in the RDL. No `<CodeModules>` element is needed in the RDL — the registration bypasses assembly loading entirely.
+The registration key must match exactly how the class is referenced in the RDL. No `<CodeModules>` element is needed in the RDL; the registration bypasses assembly loading entirely.
 
 **RDL expressions:**
 
@@ -159,11 +159,11 @@ public static class SalesHelpers
 
 > **Note:** method dispatch still uses reflection internally (`MethodInfo.Invoke`). The `RegisterType` registration ensures those methods survive trimming; it does not eliminate the reflection call itself. For fully AOT-compatible custom logic without any reflection use `RegisterCodeProvider` + `RdlCodeFunctions` instead.
 
-**Full example:** `Examples/AotStaticHelpers` — generates a sales report with tiered formatting driven by static helper methods.
+**Full example:** `Examples/AotStaticHelpers` generates a sales report with tiered formatting driven by static helper methods.
 
 ---
 
-## API 3 — `RegisterInstanceFactory` + `RegisterType` — `<Classes>` element instances
+## API 3: `RegisterInstanceFactory` + `RegisterType`, `<Classes>` element instances
 
 **Use when:** your RDL has a `<Classes>` element declaring an instance variable, and expressions call methods on it: `=Helper.FormatDate(...)`.
 
@@ -226,11 +226,11 @@ The instance is created fresh per report execution. A new `OrderFormatter` is co
 
 > **Why two calls?** `RegisterInstanceFactory` handles _construction_ (bypasses `Assembly.CreateInstance`). `RegisterType` handles _method preservation_ (tells the trimmer which methods to keep). Both are needed for full trim safety.
 
-**Full example:** `Examples/AotInstanceHelpers` — generates an order report with date formatting, currency formatting, and status-based conditional background colours driven by instance methods.
+**Full example:** `Examples/AotInstanceHelpers` generates an order report with date formatting, currency formatting, and status-based conditional background colours driven by instance methods.
 
 ---
 
-## API 4 — `RegisterCustomReportItem<T>` — AOT-safe CRI plugins
+## API 4: `RegisterCustomReportItem<T>`, AOT-safe CRI plugins
 
 **Use when:** your report uses a custom report item (barcode, chart, etc.) that you have implemented in your own assembly.
 
@@ -294,7 +294,7 @@ RdlEngineConfig.RegisterCustomReportItem<MyQrCodeCri>("QrCode");
 RdlEngineConfig.RdlEngineConfigInit();
 ```
 
-All registrations are additive and backward-compatible. The same binary runs correctly on standard JIT runtimes — the engine simply uses the registered path when it is present and falls back to the traditional path when it is not.
+All registrations are additive and backward-compatible. The same binary runs correctly on standard JIT runtimes: the engine simply uses the registered path when it is present and falls back to the traditional path when it is not.
 
 ---
 

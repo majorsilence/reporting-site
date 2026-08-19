@@ -459,7 +459,11 @@ ul { list-style: none; }
   background: var(--accent-soft);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   display: grid; place-items: center;
-  font-size: 1.1rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--accent);
   margin-bottom: 1rem;
 }
 .feature-card h3 {
@@ -638,7 +642,11 @@ ul { list-style: none; }
   background: var(--accent-soft);
   border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
   display: grid; place-items: center;
-  font-size: 1rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--accent);
   flex-shrink: 0;
 }
 .doc-card-body h4 { font-family: var(--display); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.2rem; color: var(--ink); }

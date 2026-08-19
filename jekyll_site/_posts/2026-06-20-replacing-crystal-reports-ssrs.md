@@ -10,7 +10,7 @@ enable_syntax_highlighting: true
 
 Legacy reporting tools like SAP Crystal Reports and Microsoft SQL Server Reporting Services (SSRS) were built for a different era of software. If your team is running .NET 8 or newer, deploying to Linux or Docker, or simply trying to cut licensing costs, there are good reasons to look for a modern alternative.
 
-This post covers the practical tradeoffs of replacing those systems with Majorsilence Reporting — an open-source, Apache 2.0 licensed RDL engine that runs as a plain NuGet package.
+This post covers the practical tradeoffs of replacing those systems with Majorsilence Reporting, an open-source, Apache 2.0 licensed RDL engine that runs as a plain NuGet package.
 
 ---
 
@@ -20,25 +20,25 @@ This post covers the practical tradeoffs of replacing those systems with Majorsi
 
 Crystal Reports was the dominant Windows reporting tool of the 1990s and 2000s. SAP acquired it in 2008 and it has been slowly declining since:
 
-- **Licensing costs** — both designer and runtime licenses carry per-seat or per-server fees.
-- **Windows-only runtime** — the managed SDK for Crystal Reports does not run on .NET Core, .NET 5+, or Linux. You are locked to .NET Framework on Windows.
-- **.NET Framework wall** — upgrading your application to .NET 8 or .NET 10 means Crystal Reports must be ripped out or run in a compatibility shim.
-- **SAP dependency** — bug fixes and platform support are entirely on SAP's roadmap. Support for new runtimes has been slow or absent.
-- **Large deployment footprint** — the Crystal Reports runtime redistributable is hundreds of megabytes and has complex deployment requirements.
+- **Licensing costs**: both designer and runtime licenses carry per-seat or per-server fees.
+- **Windows-only runtime**: the managed SDK for Crystal Reports does not run on .NET Core, .NET 5+, or Linux. You are locked to .NET Framework on Windows.
+- **.NET Framework wall**: upgrading your application to .NET 8 or .NET 10 means Crystal Reports must be ripped out or run in a compatibility shim.
+- **SAP dependency**: bug fixes and platform support are entirely on SAP's roadmap, and support for new runtimes has been slow or absent.
+- **Large deployment footprint**: the Crystal Reports runtime redistributable is hundreds of megabytes with complex deployment requirements.
 
 ### Microsoft SSRS
 
-SSRS is a full report server — a good choice when you want a browser-based portal, scheduled delivery, and report subscriptions. But that scope is also its burden:
+SSRS is a full report server, a good choice when you want a browser-based portal, scheduled delivery, and report subscriptions. But that scope is also its burden:
 
-- **Requires SQL Server** — SSRS is bundled with SQL Server; running it means paying for and maintaining a SQL Server license (Standard or Enterprise for production).
-- **Windows Server deployment** — SSRS runs as an IIS-hosted Windows service. Linux, containers, and cloud-native deployments are not supported.
-- **Heavy infrastructure** — you need a dedicated report server, a report server database, and IIS. There is nothing lightweight about it.
-- **Tightly coupled to Microsoft stack** — data sources beyond SQL Server and a small set of OLE DB providers require extra work. Non-Microsoft databases are second-class citizens.
-- **RDL is an asset** — SSRS does use the open RDL format, so your report definitions are portable. This is an important advantage when migrating *away* from SSRS.
+- **Requires SQL Server**: SSRS is bundled with SQL Server, so running it means paying for and maintaining a SQL Server license (Standard or Enterprise for production).
+- **Windows Server deployment**: SSRS runs as an IIS-hosted Windows service. Linux, containers, and cloud-native deployments are not supported.
+- **Heavy infrastructure**: you need a dedicated report server, a report server database, and IIS. There is nothing lightweight about it.
+- **Tightly coupled to Microsoft stack**: data sources beyond SQL Server and a small set of OLE DB providers require extra work, and non-Microsoft databases are second-class citizens.
+- **RDL is an asset**: SSRS does use the open RDL format, so your report definitions are portable. That's an advantage when migrating *away* from SSRS, specifically.
 
 ### Other Commercial Tools
 
-Tools like FastReport, DevExpress Reporting, and Telerik Reporting all offer capable designers and modern .NET support, but all require commercial licenses — often per-developer seat plus per-deployment fees. For teams that need to embed a reporting engine in a product they ship, those royalty models can become a significant line item.
+Tools like FastReport, DevExpress Reporting, and Telerik Reporting all offer capable designers and modern .NET support, but all require commercial licenses, often per-developer seat plus per-deployment fees. For teams that need to embed a reporting engine in a product they ship, those royalty models can become a significant line item.
 
 ---
 
@@ -48,25 +48,25 @@ Majorsilence Reporting is built around the same open RDL standard that SSRS uses
 
 ### The key advantages
 
-**Zero infrastructure.** The engine is a NuGet package. Add it, call `RdlEngineConfigInit()` once, and you are rendering reports. No server to provision, no IIS configuration, no license server to run.
+The engine is a NuGet package, so there's no infrastructure to stand up. Add it, call `RdlEngineConfigInit()` once, and you're rendering reports; no server to provision, no IIS configuration, no license server to run.
 
-**Apache 2.0 license.** Free to use, modify, and embed in commercial products with no royalty fees. The license covers both the designer and the rendering engine.
+It's Apache 2.0 licensed, free to use, modify, and embed in commercial products with no royalty fees, and the license covers both the designer and the rendering engine.
 
-**Cross-platform .NET 8 and .NET 10.** Runs on Linux, macOS, and Windows. Works in Docker containers and Kubernetes pods. Your reports can render on the same server as your API without a separate Windows VM.
+It runs on Linux, macOS, and Windows under .NET 8 and .NET 10, including Docker containers and Kubernetes pods, so reports can render on the same server as your API without a separate Windows VM.
 
-**One data fetch, many formats.** Call `RunGetData` once, then call `RunRender` once per output format. PDF, Excel (xlsx), HTML, CSV, RTF, and XML from a single query execution.
+Data fetching and rendering are separate steps: call `RunGetData` once, then call `RunRender` once per output format. That gets you PDF, Excel (xlsx), HTML, CSV, RTF, and XML from a single query execution.
 
-**Code-first data injection.** You do not need a live database to render a report. Pass C# objects directly via `DataSet.SetData()` — useful for unit tests, microservices that already have the data in memory, or scenarios where you want to control the query lifecycle yourself.
+You don't need a live database to render a report, either. Pass C# objects directly via `DataSet.SetData()`, which is handy for unit tests, microservices that already have the data in memory, or anywhere you want to control the query lifecycle yourself.
 
-**Version-control-friendly reports.** RDL files are XML. They diff cleanly, merge sensibly, and belong in your source repository alongside your application code. Crystal `.rpt` files are binary; SSRS reports live in a database.
+RDL files are XML, so they diff cleanly, merge sensibly, and belong in your source repository alongside your application code. Compare that to Crystal's binary `.rpt` files, or SSRS reports living in a database.
 
-**Open standard.** RDL is an open Microsoft specification. Your report definitions are not locked to Majorsilence Reporting — they can be read by any conforming RDL renderer.
+And because RDL is an open Microsoft specification, your report definitions aren't locked to Majorsilence Reporting. Any conforming RDL renderer can read them.
 
 ---
 
-## Honest Pros and Cons
+## Pros and Cons
 
-### Majorsilence Reporting — Pros
+### Majorsilence Reporting: Pros
 
 | | |
 |---|---|
@@ -80,11 +80,11 @@ Majorsilence Reporting is built around the same open RDL standard that SSRS uses
 | Barcodes and QR codes | 10 types via ZXing.Net (CRI) |
 | Charts | 8 chart types built in |
 
-### Majorsilence Reporting — Cons
+### Majorsilence Reporting: Cons
 
 | | |
 |---|---|
-| No built-in report portal | No browser-based report catalog, subscriptions, or scheduled delivery — you build that layer yourself |
+| No built-in report portal | No browser-based report catalog, subscriptions, or scheduled delivery; you build that layer yourself |
 | Windows-only designer | The drag-and-drop designer runs on Windows (rendering is cross-platform) |
 | Smaller community | Fewer Stack Overflow answers and third-party tutorials than Crystal Reports or SSRS |
 | No managed cloud service | No hosted version; you own the infrastructure |
@@ -114,20 +114,20 @@ Majorsilence Reporting is built around the same open RDL standard that SSRS uses
 
 Crystal Reports uses a proprietary binary `.rpt` format that must be converted to RDL. A few options:
 
-1. **Third-party converters** — several tools exist (including open-source ones) that can export `.rpt` files to `.rdl`. Quality varies by report complexity.
-2. **Rebuild in the RDL designer** — for simpler reports, rebuilding from scratch in the Majorsilence designer is often faster than debugging a converted file.
-3. **Data-source mapping** — Crystal Reports supports a wider range of proprietary data connections; map each to an equivalent SQL, JSON, or ODBC connection in RDL.
+1. **Third-party converters**: several tools exist (including open-source ones) that can export `.rpt` files to `.rdl`. Quality varies by report complexity.
+2. **Rebuild in the RDL designer**: for simpler reports, rebuilding from scratch in the Majorsilence designer is often faster than debugging a converted file.
+3. **Data-source mapping**: Crystal Reports supports a wider range of proprietary data connections; map each to an equivalent SQL, JSON, or ODBC connection in RDL.
 
 The more complex the Crystal report (subreports, cross-tabs, parameter cascades), the more work the migration requires. Straight tabular reports with grouping and totals convert cleanly.
 
 ## Migration Path from SSRS
 
-SSRS already uses RDL — your `.rdl` files can often be opened and rendered directly by Majorsilence Reporting without modification. Common migration steps:
+SSRS already uses RDL, so your `.rdl` files can often be opened and rendered directly by Majorsilence Reporting without modification. Common migration steps:
 
-1. **Export reports from SSRS** — download the `.rdl` files from the report server (Report Manager or SSRS web portal → Manage → Download).
-2. **Test rendering** — open the `.rdl` in the Majorsilence designer or render it in code. Most core layouts, tables, groups, and parameters will work.
-3. **Fix data sources** — SSRS data sources often reference the report server's stored credentials. Update the `<ConnectionProperties>` element in the RDL to point to your connection string.
-4. **Replace subscriptions and scheduling** — if you relied on SSRS subscriptions for automated delivery, you will need to implement that logic in your application (a background job, a Hangfire worker, etc.).
+1. **Export reports from SSRS**: download the `.rdl` files from the report server (Report Manager or SSRS web portal → Manage → Download).
+2. **Test rendering**: open the `.rdl` in the Majorsilence designer or render it in code. Most core layouts, tables, groups, and parameters will work.
+3. **Fix data sources**: SSRS data sources often reference the report server's stored credentials. Update the `<ConnectionProperties>` element in the RDL to point to your connection string.
+4. **Replace subscriptions and scheduling**: if you relied on SSRS subscriptions for automated delivery, you'll need to implement that logic in your application (a background job, a Hangfire worker, etc.).
 
 ---
 
@@ -135,11 +135,11 @@ SSRS already uses RDL — your `.rdl` files can often be opened and rendered dir
 
 Majorsilence Reporting is a rendering engine, not a full report server. If your organisation relies heavily on these SSRS features, migrating may not make sense:
 
-- **Browser-based report portal** — SSRS provides a self-service portal where business users browse, run, and download reports without touching code. Majorsilence Reporting has no equivalent out of the box.
-- **Scheduled subscriptions and email delivery** — SSRS can email reports on a schedule without any custom code. You would need to build this yourself.
-- **Mobile Report Publisher** — SSRS includes tooling for mobile-optimised report dashboards.
+- **Browser-based report portal**: SSRS provides a self-service portal where business users browse, run, and download reports without touching code. Majorsilence Reporting has no equivalent out of the box.
+- **Scheduled subscriptions and email delivery**: SSRS can email reports on a schedule without any custom code. You'd need to build this yourself.
+- **Mobile Report Publisher**: SSRS includes tooling for mobile-optimised report dashboards.
 
-If your team consumes reports programmatically — generating PDFs in a background job, attaching Excel files to emails from application code, or serving dynamic reports through an API — Majorsilence Reporting is a much better fit than a full report server.
+If your team consumes reports programmatically (generating PDFs in a background job, attaching Excel files to emails from application code, serving dynamic reports through an API), Majorsilence Reporting is a much better fit than a full report server.
 
 ---
 
@@ -194,11 +194,11 @@ await report.RunGetData(parameters);
 
 ---
 
-## Summary
+## Bottom line
 
-Majorsilence Reporting is not trying to replicate a full report server. It is a high-quality, open-source rendering engine for teams that need to generate reports programmatically from .NET code — without paying licensing fees, without running a Windows server, and without carrying hundreds of megabytes of legacy runtime dependencies.
+Majorsilence Reporting isn't trying to replicate a full report server. It's a rendering engine for teams that need to generate reports programmatically from .NET code, without licensing fees, a Windows server, or hundreds of megabytes of legacy runtime dependencies to carry around.
 
-If you are modernising a .NET application that currently depends on Crystal Reports or calling into a self-hosted SSRS server for programmatic report generation, Majorsilence Reporting is a direct, drop-in class of replacement.
+If you're modernising a .NET application that depends on Crystal Reports, or that calls into a self-hosted SSRS server just for programmatic report generation, this is a reasonable drop-in replacement to evaluate.
 
 ---
 

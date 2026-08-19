@@ -29,11 +29,11 @@ dotnet add package Majorsilence.Reporting.RdlCreator.SkiaSharp
 
 ## Key Concepts
 
-**`RdlEngineConfigInit()`** — call this once at application startup before parsing any reports. It loads data provider registrations and CRI type mappings from `RdlEngineConfig.xml`.
+**`RdlEngineConfigInit()`**: call this once at application startup before parsing any reports. It loads data provider registrations and CRI type mappings from `RdlEngineConfig.xml`.
 
-**Parse-time DB connection** — when `RDLParser.Parse()` is called it opens the database to validate the query schema. This means the connection string inside the RDL must resolve to a real database *before* `Parse()` returns. The standard pattern is to inject the absolute path into the RDL XML string before calling `Parse()`.
+**Parse-time DB connection**: when `RDLParser.Parse()` is called it opens the database to validate the query schema. This means the connection string inside the RDL must resolve to a real database *before* `Parse()` returns. The standard pattern is to inject the absolute path into the RDL XML string before calling `Parse()`.
 
-**`RunGetData` / `RunRender`** — call `RunGetData` once to execute queries, then call `RunRender` once per output format. Each render pass rebuilds pages from the already-fetched data without re-querying the database.
+**`RunGetData` / `RunRender`**: call `RunGetData` once to execute queries, then call `RunRender` once per output format. Each render pass rebuilds pages from the already-fetched data without re-querying the database.
 
 ---
 
@@ -124,7 +124,7 @@ var rdlXml = (await File.ReadAllTextAsync("Employees.rdl"))
 
 ## Pass report parameters
 
-Use `RunGetData(IDictionary<string, string>)` to supply parameter values. To filter by a SQL column, inject the value directly into the RDL SQL string before `Parse()` — passing a query parameter value post-parse will fail because the database tries to bind it during schema validation.
+Use `RunGetData(IDictionary<string, string>)` to supply parameter values. To filter by a SQL column, inject the value directly into the RDL SQL string before `Parse()`: passing a query parameter value post-parse will fail because the database tries to bind it during schema validation.
 
 ```csharp
 var country = "Germany";
